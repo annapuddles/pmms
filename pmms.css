@@ -1,0 +1,10 @@
+html, body, input, button {
+	font-family: Helvetica, "Font Awesome 5 Free";
+}
+
+html, body {
+	padding: 0;
+	margin: 0;
+	background: #000;
+	color: #fff;
+}

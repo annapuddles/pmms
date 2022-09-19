@@ -1,0 +1,214 @@
+@import "pmms.css";
+
+html, body, input, button {
+	font-size: 2.4vmax;
+}
+
+html, body {
+	overflow: hidden;
+}
+
+input {
+	width: auto;
+}
+
+.hover-menu-container {
+	position: absolute;
+}
+
+.hover-menu {
+	visibility: hidden;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 1;
+	padding: 1.5vh 1.5vw;
+	pointer-events: none;
+}
+
+.hover-menu-container:hover .hover-menu {
+	visibility: visible;
+	pointer-events: auto;
+}
+
+.pop-up-menu {
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -45%);
+	visibility: hidden;
+	background: rgba(0, 0, 0, 0.7);
+	z-index: 1;
+	display: flex;
+	flex-flow: column;
+	height: 80vh;
+	width: 60vw;
+	border-radius: 10px;
+	padding: 1vh 1vw;
+}
+
+button.active {
+	color: #dd558c;
+}
+
+#video > iframe, #video > video {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	padding: 0;
+	margin: 0;
+}
+
+#controls-container {
+	left: 50%;
+	bottom: 0%;
+	transform: translate(-50%, 0);
+}
+
+#controls {
+	display: grid;
+	grid-template-columns: max-content auto repeat(7, max-content);
+	grid-gap: 0.5vh 0.5vw;
+	align-items: center;
+	height: 10vh;
+	width: 90vw;
+	align-self: center;
+	border-radius: 10px 10px 0 0;
+}
+
+#volume-control {
+	display: grid;
+	grid-template-columns: max-content auto max-content;
+	grid-gap: 0.25vh 0.25vw;
+	align-items: center;
+}
+
+#volume-status {
+	width: 2.5vw;
+}
+
+#volume {
+	flex-grow: 1;
+	width: 10vw;
+}
+
+#queue-title {
+	border-bottom: solid 1px white;
+}
+
+#add-media {
+	display: flex;
+}
+
+#url {
+	flex-grow: 1;
+}
+
+#queue-list {
+	font-size: 1.5vmax;
+	display: flex;
+	flex-flow: column;
+	padding: 1vh 0;
+	flex-grow: 1;
+	overflow: auto;
+}
+
+.queue-item {
+	user-select: none;
+	cursor: pointer;
+	padding: 0.5vh 0;
+}
+
+.queue-item:hover {
+	color: pink;
+}
+
+#queue-controls {
+	display: flex;
+	flex-flow: row;
+	align-items: center;
+}
+
+#queue-controls button {
+	flex-grow: 1;
+}
+
+.settings-group {
+	padding-bottom: 2em;
+}
+
+.settings-group-title {
+	border-bottom: solid 1px white;
+}
+
+.settings-group-main {
+	flex-grow: 1;
+	padding: 1vh 0;
+}
+
+.setting {
+	display: flex;
+}
+
+.setting-label {
+	font-size: 2vmax;
+	padding-right: 0.5em;
+}
+
+.setting-input {
+	flex-grow: 1;
+}
+
+@media (hover: none) and (orientation: portrait) {
+	html, body {
+		overflow: auto;
+	}
+
+	.hover-menu-container {
+		position: relative;
+	}
+
+	.hover-menu {
+		visibility: visible;
+	}
+
+	.pop-up-menu {
+		position: relative;
+		visibility: visible;
+		top: auto;
+		left: auto;
+		transform: none;
+		width: auto;
+		height: auto;
+	}
+
+	.pop-up-menu-button {
+		display: none;
+	}
+
+	#controls-container {
+		left: auto;
+		bottom: auto;
+		transform: none;
+	}
+
+	#controls {
+		display: block;
+	}
+
+	#controls {
+		width: auto;
+		height: auto;
+	}
+
+	#video > iframe, #video > video {
+		position: relative;
+		height: 50vh;
+	}
+}
+
+@media (hover: none) and (orientation: landscape) {
+	.hover-menu-container {
+		display: none;
+	}
+}

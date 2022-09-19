@@ -1,0 +1,71 @@
+@import "pmms.css";
+
+html, body {
+	font-size: 2vmax;
+}
+
+body {
+	display: flex;
+	flex-flow: column;
+}
+
+input, button {
+	font-size: 4vmax;
+}
+
+#categories {
+	display: flex;
+}
+
+#categories button {
+	flex-grow: 1;
+}
+
+#search {
+	display: flex;
+	width: 100vw;
+}
+
+#search button, #search input {
+	font-size: 3vmax;
+}
+
+#query {
+	flex-grow: 1;
+}
+
+#catalog {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+	grid-gap: 2vh 1vw;
+	padding: 1vh 1vw;
+}
+
+.catalog-entry {
+	text-align: center;
+	cursor: pointer;
+}
+
+.catalog-entry:hover .title {
+	color: pink;
+}
+
+.cover {
+	text-align: center;
+	min-height: 300px;
+}
+
+.cover > * {
+	width: 200px;
+	height: 300px;
+}
+
+.catalog-entry:hover {
+	overflow: visible;
+}
+
+.catalog-entry:hover .cover > * {
+	width: 225px;
+	height: 325px;
+	transition: width 0.5s, height 0.5s;
+}
