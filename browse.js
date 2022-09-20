@@ -25,24 +25,28 @@ window.addEventListener('load', function() {
 
 	allButton.addEventListener('click', function() {
 		url.searchParams.delete('category');
+		url.searchParams.delete('genre');
 		url.searchParams.delete('series');
 		window.location = url.toString();
 	});
 
 	movieButton.addEventListener('click', function() {
 		url.searchParams.set('category', 'movie');
+		url.searchParams.delete('genre');
 		url.searchParams.delete('series');
 		window.location = url.toString();
 	});
 
 	tvButton.addEventListener('click', function() {
 		url.searchParams.set('category', 'tv');
+		url.searchParams.delete('genre');
 		url.searchParams.delete('series');
 		window.location = url.toString();
 	});
 
 	musicButton.addEventListener('click', function() {
 		url.searchParams.set('category', 'music');
+		url.searchParams.delete('genre');
 		url.searchParams.delete('series');
 		window.location = url.toString();
 	});
@@ -141,6 +145,7 @@ window.addEventListener('load', function() {
 			if (entry.url == null) {
 				url.searchParams.set('series', entry.id);
 				url.searchParams.delete('category');
+				url.searchParams.delete('genre');
 				url.searchParams.delete('query');
 				window.location = url.toString();
 			} else {
