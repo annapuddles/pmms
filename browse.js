@@ -82,7 +82,13 @@ window.addEventListener('load', function() {
 				break;
 		}
 
-		fetch('genres.php').then(resp => resp.json()).then(data => {
+		let genresUrl = 'genres.php';
+
+		if (category) {
+			genresUrl += `?category=${category}`;
+		}
+
+		fetch(genresUrl).then(resp => resp.json()).then(data => {
 			genreSelect.innerHTML = '<option value="">All genres</option>';
 
 			data.forEach(genre => {

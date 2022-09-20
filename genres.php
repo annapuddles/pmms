@@ -3,7 +3,12 @@ include "pmms.php";
 
 $conn = create_db_connection();
 
-$stmt = $conn->prepare("SELECT name FROM genre ORDER BY name");
+if (isset($_GET["category"])) {
+	$stmt = $conn->prepare("SELECT DISTINCT genre AS name FROM catalog_with_genre WHERE category = ? ORDER BY name");
+	$stmt->bind_param("s", $_GET["category"]);
+} else {
+	$stmt = $conn->prepare("SELECT name FROM genre ORDER BY name");
+}
 $stmt->execute();
 
 $result = $stmt->get_result();
