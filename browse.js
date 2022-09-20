@@ -3,6 +3,7 @@ window.addEventListener('load', function() {
 	let roomKey = url.searchParams.get('room');
 	let series = url.searchParams.get('series');
 	let category = url.searchParams.get('category');
+	let genre = url.searchParams.get('genre');
 
 	let homeButton = document.getElementById('home');
 	let catalogDiv = document.getElementById('catalog');
@@ -11,6 +12,8 @@ window.addEventListener('load', function() {
 	let movieButton = document.getElementById('category-movie');
 	let tvButton = document.getElementById('category-tv');
 	let musicButton = document.getElementById('category-music');
+
+	let genreSelect = document.getElementById('genre');
 
 	let searchQuery = document.getElementById('query');
 	let searchButton = document.getElementById('search-button');
@@ -49,6 +52,8 @@ window.addEventListener('load', function() {
 		movieButton.style.color = 'grey';
 		tvButton.style.color = 'grey';
 		musicButton.style.color = 'grey';
+
+		genreSelect.style.display = 'none';
 	} else {
 		switch (category) {
 			case 'movie':
@@ -76,6 +81,31 @@ window.addEventListener('load', function() {
 				musicButton.style.color = 'grey';
 				break;
 		}
+
+		fetch('genres.php').then(resp => resp.json()).then(data => {
+			genreSelect.innerHTML = '<option value="">All genres</option>';
+
+			data.forEach(genre => {
+				let option = document.createElement('option');
+				option.value = genre;
+				option.innerHTML = genre;
+				genreSelect.appendChild(option);
+			});
+
+			if (genre) {
+				genreSelect.value = genre;
+			}
+		});
+
+		genreSelect.addEventListener('change', function() {
+			if (this.value == '') {
+				url.searchParams.delete('genre');
+			} else {
+				url.searchParams.set('genre', this.value);
+			}
+
+			window.location = url.toString();
+		});
 	}
 
 	searchButton.addEventListener('click', function() {

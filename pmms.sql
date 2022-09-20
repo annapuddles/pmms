@@ -1,6 +1,10 @@
 DROP TABLE IF EXISTS queue;
 DROP TABLE IF EXISTS room;
 DROP TABLE IF EXISTS catalog;
+DROP TABLE IF EXISTS source;
+DROP TABLE IF EXISTS genre;
+DROP TABLE IF EXISTS catalog_genre;
+DROP VIEW IF EXISTS catalog_with_genre;
 
 CREATE TABLE room (
 	id INTEGER AUTO_INCREMENT,
@@ -45,3 +49,20 @@ CREATE TABLE source (
 	source_url VARCHAR(1024) NOT NULL,
 	PRIMARY KEY (id)
 );
+
+CREATE TABLE genre (
+	id INTEGER AUTO_INCREMENT,
+	name VARCHAR(16) NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE catalog_genre (
+	id INTEGER AUTO_INCREMENT,
+	catalog_id INTEGER,
+	genre_id INTEGER,
+	PRIMARY KEY (id),
+	FOREIGN KEY (catalog_id) REFERENCES catalog (id) ON DELETE CASCADE,
+	FOREIGN KEY (genre_id) REFERENCES genre (id) ON DELETE CASCADE
+);
+
+CREATE VIEW catalog_with_genre AS SELECT catalog.id AS id, url, title, sort_title, cover, category, series, keywords, hidden, genre.name AS genre FROM catalog JOIN catalog_genre ON catalog.id = catalog_genre.catalog_id JOIN genre ON genre.id = catalog_genre.genre_id;

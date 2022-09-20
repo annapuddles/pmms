@@ -13,6 +13,10 @@ input, button {
 	font-size: 4vmax;
 }
 
+select {
+	font-size: 2vmax;
+}
+
 #categories {
 	display: flex;
 }
@@ -23,7 +27,6 @@ input, button {
 
 #search {
 	display: flex;
-	width: 100vw;
 }
 
 #search button, #search input {

@@ -36,6 +36,9 @@ session_start();
 			</button>
 		</div>
 		<div id="search">
+			<select id="genre">
+				<option value="">All genres</option>
+			</select>
 			<input type="text" id="query">
 			<button id="search-button"><i class="fas fa-search"></i> Search</button>
 		</div>
