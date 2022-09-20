@@ -72,3 +72,7 @@ select {
 	height: 325px;
 	transition: width 0.5s, height 0.5s;
 }
+
+#no-results {
+	text-align: center;
+}

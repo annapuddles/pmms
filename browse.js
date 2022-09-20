@@ -158,38 +158,42 @@ window.addEventListener('load', function() {
 	let catalogUrl = 'catalog.php?' + url.searchParams.toString();
 
 	fetch(catalogUrl).then(resp => resp.json()).then(data => {
-		if (series && searchQuery.value == '' && data.length > 0) {
-			let playAllDiv = document.createElement('div');
+		if (data.length == 0) {
+			catalogDiv.innerHTML = '<div id="no-results">No results found.</div>';
+		} else {
+			if (series && searchQuery.value == '') {
+				let playAllDiv = document.createElement('div');
 
-			playAllDiv.className = 'catalog-entry';
+				playAllDiv.className = 'catalog-entry';
 
-			playAllDiv.innerHTML = '<div class="cover"><button><i class="fas fa-play"></i></button></div><div class="title">Play All</div>';
+				playAllDiv.innerHTML = '<div class="cover"><button><i class="fas fa-play"></i></button></div><div class="title">Play All</div>';
 
-			addCatalogEntryClickListener(playAllDiv, {url: encodeURI("series=" + series)}, roomKey);
+				addCatalogEntryClickListener(playAllDiv, {url: encodeURI("series=" + series)}, roomKey);
 
-			catalogDiv.appendChild(playAllDiv);
+				catalogDiv.appendChild(playAllDiv);
+			}
+
+			data.forEach(entry => {
+				let div = document.createElement('div');
+
+				div.className = 'catalog-entry';
+
+				addCatalogEntryClickListener(div, entry, roomKey);
+
+				let coverDiv = document.createElement('div');
+				coverDiv.className = 'cover';
+				let coverImg = document.createElement('img');
+				coverImg.src = entry.cover;
+				coverDiv.appendChild(coverImg);
+				div.appendChild(coverDiv);
+
+				let titleDiv = document.createElement('div');
+				titleDiv.className = 'title';
+				titleDiv.innerHTML = entry.title;
+				div.appendChild(titleDiv);
+
+				catalogDiv.appendChild(div);
+			});
 		}
-
-		data.forEach(entry => {
-			let div = document.createElement('div');
-
-			div.className = 'catalog-entry';
-
-			addCatalogEntryClickListener(div, entry, roomKey);
-
-			let coverDiv = document.createElement('div');
-			coverDiv.className = 'cover';
-			let coverImg = document.createElement('img');
-			coverImg.src = entry.cover;
-			coverDiv.appendChild(coverImg);
-			div.appendChild(coverDiv);
-
-			let titleDiv = document.createElement('div');
-			titleDiv.className = 'title';
-			titleDiv.innerHTML = entry.title;
-			div.appendChild(titleDiv);
-
-			catalogDiv.appendChild(div);
-		});
 	});
 });
