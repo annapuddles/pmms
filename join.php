@@ -24,6 +24,14 @@ session_start();
 					<i class="fas fa-pause"></i>
 				</button>
 				<input type="range" id="progress" min="0" max="0" value="0">
+				<div id="seek-controls">
+					<button id="seek-backward">
+						<i class="fas fa-backward"></i>
+					</button>
+					<button id="seek-forward">
+						<i class="fas fa-forward"></i>
+					</button>
+				</div>
 				<div id="timecodes">
 					<span id="current-timecode">00:00:00</span>/<span id="duration-timecode">--:--:--</span>
 				</div>

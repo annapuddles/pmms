@@ -46,6 +46,8 @@ window.addEventListener('load', () => {
 	let roomSettingsContainer = document.getElementById('room-settings-container');
 	let clearQueueButton = document.getElementById('clear-queue');
 	let sourceSelect = document.getElementById('source');
+	let seekBackwardButton = document.getElementById('seek-backward');
+	let seekForwardButton = document.getElementById('seek-forward');
 
 	playButton.setPauseIcon = function() {
 		this.innerHTML = '<i class="fas fa-pause"></i>';
@@ -382,5 +384,13 @@ window.addEventListener('load', () => {
 
 	clearQueueButton.addEventListener('click', function() {
 		fetch(`clear-queue.php?room=${roomKey}`);
+	});
+
+	seekBackwardButton.addEventListener('click', function() {
+		fetch(`seek-backward.php?room=${roomKey}`);
+	});
+
+	seekForwardButton.addEventListener('click', function() {
+		fetch(`seek-forward.php?room=${roomKey}`);
 	});
 });
