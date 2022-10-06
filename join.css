@@ -6,6 +6,7 @@ html, body, input, button {
 
 html, body {
 	overflow: hidden;
+	background-color: black;
 }
 
 input {

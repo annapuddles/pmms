@@ -5,6 +5,6 @@ html, body, input, button {
 html, body {
 	padding: 0;
 	margin: 0;
-	background: #000;
+	background-color: #101010;
 	color: #fff;
 }
