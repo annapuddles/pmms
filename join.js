@@ -216,24 +216,27 @@ window.addEventListener('load', () => {
 
 				let currentTime = resp.time;
 
-				if (resp.loop) {
-					currentTime %= media.duration;
-				} else {
-					if (media.isReady && currentTime >= media.duration) {
-						if (nextButton.queueId != null) {
-							fetch(`dequeue.php?room=${roomKey}&id=${nextButton.queueId}`);
+				// Sync unless the duration is 0, which usually means it hasn't been fetched yet or the video is a live stream
+				if (media.duration > 0) {
+					if (resp.loop) {
+						currentTime %= media.duration;
+					} else {
+						if (media.isReady && currentTime >= media.duration) {
+							if (nextButton.queueId != null) {
+								fetch(`dequeue.php?room=${roomKey}&id=${nextButton.queueId}`);
+							}
+
+							currentTime = media.duration;
+
+							media.pause();
+
+							return;
 						}
-
-						currentTime = media.duration;
-
-						media.pause();
-
-						return;
 					}
-				}
 
-				if (Math.abs(media.currentTime - currentTime) > syncTolerance) {
-					media.currentTime = currentTime;
+					if (Math.abs(media.currentTime - currentTime) > syncTolerance) {
+						media.currentTime = currentTime;
+					}
 				}
 
 				progressBar.value = currentTime;
