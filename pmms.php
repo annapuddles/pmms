@@ -20,7 +20,7 @@ function prune_rooms($conn) {
 	$stmt->close();
 }
 
-function create_room($conn, $url, $locked = null, $owner = null) {
+function create_room($conn, $url, $title = null, $locked = null, $owner = null) {
 	global $Config;
 
 	prune_rooms($conn);
@@ -45,7 +45,7 @@ function create_room($conn, $url, $locked = null, $owner = null) {
 	$stmt->close();
 
 	$room_id = get_room_id($conn, $room);
-	$queue_id = enqueue_video($conn, $room_id, $url);
+	$queue_id = enqueue_video($conn, $room_id, $url, $title);
 	dequeue_video($conn, $room, $queue_id);
 
 	return $room;
@@ -179,18 +179,38 @@ function enqueue_youtube_playlist($conn, $room_id, $playlist_id) {
 }
 
 function dequeue_video($conn, $room, $queue_id) {
-	$stmt = $conn->prepare("SELECT room_id, url FROM queue WHERE id = ?");
+	$stmt = $conn->prepare("SELECT room_id, url, title FROM queue WHERE id = ?");
 	$stmt->bind_param("i", $queue_id);
-	$stmt->bind_result($room_id, $url);
+	$stmt->bind_result($room_id, $url, $title);
+	$stmt->execute();
+	$stmt->fetch();
+	$stmt->close();
+
+	$stmt = $conn->prepare("SELECT url, title, loop_media FROM room WHERE room_key = ?");
+	$stmt->bind_param("s", $room);
+	$stmt->bind_result($current_url, $current_title, $loop);
 	$stmt->execute();
 	$stmt->fetch();
 	$stmt->close();
 
 	if (isset($url)) {
-		$stmt = $conn->prepare("UPDATE room SET url = ?, start_time = UNIX_TIMESTAMP() + 2, paused = null WHERE room_key = ?");
-		$stmt->bind_param("ss", $url, $room);
+		// Add the current video to the end of the queue
+		if ($loop == 2 && $current_url) {
+			enqueue_video($conn, $room_id, $current_url, $current_title);
+		}
+
+		$stmt = $conn->prepare("UPDATE room SET url = ?, title = ?, start_time = UNIX_TIMESTAMP() + 2, paused = null WHERE room_key = ?");
+		$stmt->bind_param("sss", $url, $title, $room);
 		$stmt->execute();
 		$stmt->close();
+
+		// Add all videos before the selected queue item to the end of the queue
+		if ($loop == 2) {
+			$stmt = $conn->prepare("INSERT INTO queue (room_id, url, title) SELECT room_id, url, title FROM queue WHERE room_id = ? and id < ?");
+			$stmt->bind_param("ii", $room_id, $queue_id);
+			$stmt->execute();
+			$stmt->close();
+		}
 
 		$stmt = $conn->prepare("DELETE FROM queue WHERE room_id = ? and id <= ?");
 		$stmt->bind_param("ii", $room_id, $queue_id);

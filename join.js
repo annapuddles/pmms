@@ -48,6 +48,7 @@ window.addEventListener('load', () => {
 	let sourceSelect = document.getElementById('source');
 	let seekBackwardButton = document.getElementById('seek-backward');
 	let seekForwardButton = document.getElementById('seek-forward');
+	let currentVideoTitle = document.getElementById('current-video-title');
 
 	playButton.setPauseIcon = function() {
 		this.innerHTML = '<i class="fas fa-pause"></i>';
@@ -61,17 +62,25 @@ window.addEventListener('load', () => {
 
 	playButton.icon = "pause";
 
-	loopButton.setLoopIcon = function() {
+	loopButton.setLoopOneIcon = function() {
 		this.style.color = 'black';
-		this.icon = "loop";
+		this.icon = "loop-one";
+		this.innerHTML = '<i class="fas fa-retweet"></i>';
+	}
+
+	loopButton.setLoopAllIcon = function() {
+		this.style.color = 'black';
+		this.icon = 'loop-all';
+		this.innerHTML = '<i class="fas fa-list-alt"></i>';
 	}
 
 	loopButton.setContinueIcon = function() {
 		this.style.color = 'grey';
 		this.icon = "continue";
+		this.innerHTML = '<i class="fas fa-retweet"></i>';
 	}
 
-	loopButton.icon = "continue";
+	loopButton.mode = 0;
 
 	lockButton.setLockedIcon = function() {
 		this.innerHTML = '<i class="fas fa-lock"></i>';
@@ -200,16 +209,24 @@ window.addEventListener('load', () => {
 				return;
 			}
 
+			let title = resp.title || resp.url;
+			if (currentVideoTitle.innerHTML != title) {
+				currentVideoTitle.innerHTML = title;
+				document.title = 'pmms - Watching: ' + title;
+			}
+
 			nextButton.queueId = resp.next;
 
-			if (resp.loop) {
-				if (loopButton.icon == "continue") {
-					loopButton.setLoopIcon();
-				}
-			} else {
-				if (loopButton.icon == "loop") {
+			if (loopButton.mode != resp.loop) {
+				if (resp.loop == 0) {
 					loopButton.setContinueIcon();
+				} else if (resp.loop == 1) {
+					loopButton.setLoopOneIcon();
+				} else if (resp.loop == 2) {
+					loopButton.setLoopAllIcon();
 				}
+
+				loopButton.mode = resp.loop;
 			}
 
 			if (resp.paused == null) {
@@ -220,7 +237,7 @@ window.addEventListener('load', () => {
 
 				// Sync unless the duration is 0, which usually means it hasn't been fetched yet or the video is a live stream
 				if (media.duration > 0) {
-					if (resp.loop) {
+					if (resp.loop == 1) {
 						currentTime %= media.duration;
 					} else {
 						if (media.isReady && currentTime >= media.duration) {
@@ -312,7 +329,7 @@ window.addEventListener('load', () => {
 	});
 
 	loopButton.addEventListener('click', function() {
-		fetch(`loop.php?room=${roomKey}&loop=${this.icon == "loop" ? "no" : "yes"}&time=${media.currentTime}`);
+		fetch(`loop.php?room=${roomKey}&loop=${(this.mode + 1) % 3}&time=${media.currentTime}`);
 	});
 
 	fullscreenButton.addEventListener('click', function() {

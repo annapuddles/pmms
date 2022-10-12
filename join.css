@@ -105,6 +105,12 @@ button.active {
 	flex-grow: 1;
 }
 
+#current-video {
+	font-size: 1.5vmax;
+	padding: 1vh 0;
+	color: pink;
+}
+
 #queue-list {
 	font-size: 1.5vmax;
 	display: flex;
@@ -132,6 +138,10 @@ button.active {
 
 #queue-controls button {
 	flex-grow: 1;
+}
+
+#queue-controls button i {
+	vertical-align: baseline;
 }
 
 .settings-group {

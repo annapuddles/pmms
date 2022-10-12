@@ -57,6 +57,7 @@ session_start();
 		</div>
 		<div id="queue" class="pop-up-menu">
 			<div id="queue-title"><i class="fas fa-list"></i> Queue</div>
+			<div id="current-video"><i class="fas fa-play"></i> <span id="current-video-title"></span></div>
 			<div id="add-media">
 				<button id="catalog"><i class="fas fa-grip-horizontal"></i></button><input id="url" placeholder="Enter media URL..."><button id="queue-video"><i class="fas fa-plus"></i></button>
 			</div>

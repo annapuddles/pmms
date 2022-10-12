@@ -150,7 +150,7 @@ window.addEventListener('load', function() {
 				window.location = url.toString();
 			} else {
 				if (roomKey == null) {
-					window.location = `create.php?url=${entry.url}`;
+					window.location = `create.php?url=${entry.url}&title=${entry.title}`;
 				} else {
 					fetch(`enqueue.php?room=${roomKey}&url=${encodeURI(entry.url)}&title=${entry.title}`).then(resp => {
 						window.location = `join.php?room=${roomKey}`;
