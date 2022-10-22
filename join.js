@@ -169,6 +169,8 @@ window.addEventListener('load', () => {
 
 				media = new MediaElement('video');
 
+				media.isStream = () => false;
+
 				media.addEventListener('canplay', () => {
 					progressBar.max = media.duration;
 					durationTimecode.innerHTML = timeToString(media.duration);
@@ -179,6 +181,10 @@ window.addEventListener('load', () => {
 						media.muted = localStorage.muted == 'true';
 						volumeStatus.updateIcon();
 					}
+
+					media.isStream = () =>
+						media.duration == 0 ||
+						(media.youTubeApi && media.youTubeApi.getAvailableQualityLevels().includes('auto'));
 
 					media.play();
 
@@ -230,13 +236,26 @@ window.addEventListener('load', () => {
 			}
 
 			if (resp.paused == null) {
-				progressBar.max = media.duration;
-				durationTimecode.innerHTML = timeToString(media.duration);
+				let currentTime;
+				let duration;
 
-				let currentTime = resp.time;
+				if (media.isStream()) {
+					playButton.disabled = true;
+					progressBar.disabled = true;
+					seekForwardButton.disabled = true;
+					seekBackwardButton.disabled = true;
 
-				// Sync unless the duration is 0, which usually means it hasn't been fetched yet or the video is a live stream
-				if (media.duration > 0) {
+					currentTime = -1;
+					duration = -1;
+				} else {
+					playButton.disabled = false;
+					progressBar.disabled = false;
+					seekForwardButton.disabled = false;
+					seekBackwardButton.disabled = false;
+
+					currentTime = resp.time;
+					duration = media.duration;
+
 					if (resp.loop == 1) {
 						currentTime %= media.duration;
 					} else {
@@ -260,6 +279,9 @@ window.addEventListener('load', () => {
 
 				progressBar.value = currentTime;
 				currentTimecode.innerHTML = timeToString(currentTime);
+
+				progressBar.max = duration;
+				durationTimecode.innerHTML = timeToString(duration);
 
 				if (media.paused) {
 					media.play();
