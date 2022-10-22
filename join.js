@@ -179,7 +179,6 @@ window.addEventListener('load', () => {
 
 					if (localStorage.muted) {
 						media.muted = localStorage.muted == 'true';
-						volumeStatus.updateIcon();
 					}
 
 					media.isLive = () =>
@@ -189,6 +188,10 @@ window.addEventListener('load', () => {
 					media.play();
 
 					media.isReady = true;
+				});
+
+				media.addEventListener('volumechange', () => {
+					volumeStatus.updateIcon();
 				});
 
 				fetch(`sources.php?room=${roomKey}`).then(resp => resp.json()).then(resp => {
@@ -378,7 +381,6 @@ window.addEventListener('load', () => {
 		if (media != null) {
 			media.volume = this.value / 100;
 			localStorage.volume = this.value;
-			volumeStatus.updateIcon();
 		}
 	});
 
@@ -386,7 +388,6 @@ window.addEventListener('load', () => {
 		if (media != null) {
 			localStorage.muted = !media.muted;
 			media.muted = !media.muted;
-			volumeStatus.updateIcon();
 		}
 	});
 
