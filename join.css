@@ -68,7 +68,7 @@ button.active {
 
 #controls {
 	display: grid;
-	grid-template-columns: max-content auto repeat(8, max-content);
+	grid-template-columns: max-content auto repeat(10, max-content);
 	grid-gap: 0.5vh 0.5vw;
 	align-items: center;
 	height: 10vh;

@@ -49,6 +49,7 @@ window.addEventListener('load', () => {
 	let seekBackwardButton = document.getElementById('seek-backward');
 	let seekForwardButton = document.getElementById('seek-forward');
 	let currentVideoTitle = document.getElementById('current-video-title');
+	let pinnedButton = document.getElementById('pinned');
 
 	playButton.setPauseIcon = function() {
 		this.innerHTML = '<i class="fas fa-pause"></i>';
@@ -411,12 +412,14 @@ window.addEventListener('load', () => {
 		});
 
 		document.getElementById('controls').style.visibility = null;
+		pinnedButton.disabled = false;
 
 		if (this.className == 'pop-up-menu-button inactive') {
 			document.getElementById(menu).style.visibility = 'visible';
 			this.className = 'pop-up-menu-button active';
 
 			document.getElementById('controls').style.visibility = 'visible';
+			pinnedButton.disabled = true;
 		} else {
 			this.className = 'pop-up-menu-button inactive';
 		}
@@ -432,5 +435,15 @@ window.addEventListener('load', () => {
 
 	seekForwardButton.addEventListener('click', function() {
 		fetch(`seek-forward.php?room=${roomKey}`);
+	});
+
+	pinnedButton.addEventListener('click', function() {
+		if (this.className == 'active') {
+			document.getElementById('controls').style.visibility = null;
+			this.className = null;
+		} else {
+			document.getElementById('controls').style.visibility = 'visible';
+			this.className = 'active';
+		}
 	});
 });

@@ -50,6 +50,9 @@ session_start();
 				<button id="settings-button" class="pop-up-menu-button inactive" data-menu="settings">
 					<i class="fas fa-cog"></i>
 				</button>
+				<button id="pinned">
+					<i class="Fas fa-thumbtack"></i>
+				</button>
 				<button id="home">
 					<i class="fas fa-home"></i>
 				</button>
