@@ -169,7 +169,7 @@ window.addEventListener('load', () => {
 
 				media = new MediaElement('video');
 
-				media.isStream = () => false;
+				media.isLive = () => false;
 
 				media.addEventListener('canplay', () => {
 					progressBar.max = media.duration;
@@ -182,7 +182,9 @@ window.addEventListener('load', () => {
 						volumeStatus.updateIcon();
 					}
 
-					media.isStream = () => media.duration == 0;
+					media.isLive = () =>
+						media.duration == 0 || media.duration == Infinity ||
+						(media.youTubeApi && media.youTubeApi.getVideoData().isLive);
 
 					media.play();
 
@@ -237,7 +239,7 @@ window.addEventListener('load', () => {
 				let currentTime;
 				let duration;
 
-				if (media.isStream()) {
+				if (media.isLive()) {
 					playButton.disabled = true;
 					progressBar.disabled = true;
 					seekForwardButton.disabled = true;
