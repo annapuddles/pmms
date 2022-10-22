@@ -182,9 +182,7 @@ window.addEventListener('load', () => {
 						volumeStatus.updateIcon();
 					}
 
-					media.isStream = () =>
-						media.duration == 0 ||
-						(media.youTubeApi && media.youTubeApi.getAvailableQualityLevels().includes('auto'));
+					media.isStream = () => media.duration == 0;
 
 					media.play();
 
