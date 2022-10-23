@@ -85,6 +85,8 @@ function enqueue_video($conn, $room_id, $url, $title = null) {
 		return enqueue_series($conn, $room_id, $series_id);
 	} else if (get_youtube_playlist_id($url, $playlist_id)) {
 		return enqueue_youtube_playlist($conn, $room_id, $playlist_id);
+	} else if ($title == null && get_youtube_video_id($url, $video_id)) {
+		return enqueue_youtube_video($conn, $room_id, $video_id);
 	} else {
 		if ($title == null) {
 			$title = $url;
@@ -248,5 +250,42 @@ function clear_queue($conn, $room) {
 	$stmt->bind_param("i", $room_id);
 	$stmt->execute();
 	$stmt->close();
+}
+
+function get_youtube_video_id($url, &$id) {
+	if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/\s]{11})%i', $url, $match)) {
+		$id = $match[1];
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function get_youtube_video_info($video_id) {
+	global $Config;
+
+	if (!array_key_exists("api_key", $Config["youtube"])) {
+		return null;
+	}
+
+	$url = "https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" . $video_id . "&key=" . $Config["youtube"]["api_key"];
+
+	$response = json_decode(file_get_contents($url));
+
+	return $response->items[0];
+}
+
+function enqueue_youtube_video($conn, $room_id, $video_id) {
+	$video = get_youtube_video_info($video_id);
+
+	$url = "https://youtube.com/watch?v=" . $video_id;
+
+	if ($video) {
+		$title = $title . $video->snippet->title;
+	} else {
+		$title = $title . $url;
+	}
+
+	return enqueue_video($conn, $room_id, $url, $title);
 }
 ?>
