@@ -411,7 +411,9 @@ window.addEventListener('load', () => {
 			}
 		});
 
-		document.getElementById('controls').style.visibility = null;
+		if (pinnedButton.className != 'active') {
+			document.getElementById('controls').style.visibility = null;
+		}
 		pinnedButton.disabled = false;
 
 		if (this.className == 'pop-up-menu-button inactive') {
