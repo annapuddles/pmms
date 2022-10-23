@@ -5,7 +5,7 @@ session_start();
 
 $room = $_GET["room"];
 $url = $_GET["url"];
-$title = $_GET["title"];
+$title = isset($_GET["title"]) ? $_GET["title"] : null;
 
 $conn = create_db_connection();
 
