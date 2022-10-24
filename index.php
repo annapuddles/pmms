@@ -6,8 +6,8 @@ session_start();
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width">
 		<title>pmms</title>
-		<script src="https://kit.fontawesome.com/5537a772c3.js" crossorigin="anonymous"></script>
 		<script src="index.js"></script>
+		<link rel="stylesheet" href="fontawesome-free-6.2.0-web/css/solid.css">
 		<link rel="stylesheet" href="index.css">
 	</head>
 	<body>
@@ -23,7 +23,9 @@ session_start();
 			<hr>
 			<form action="create.php" id="create-room">
 				<input type="text" name="url" id="url" placeholder="Enter media URL...">
-				<button type="submit">&#xf35a;</button>
+				<button type="submit">
+					<i class="fas fa-circle-right"></i>
+				</button>
 			</form>
 		</div>
 	</body>

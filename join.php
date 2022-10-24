@@ -6,7 +6,6 @@ session_start();
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>pmms</title>
-		<script src="https://kit.fontawesome.com/5537a772c3.js" crossorigin="anonymous"></script>
 		<script src="mediaelement/mediaelement.min.js"></script>
 		<script src="mediaelement/dailymotion.min.js"></script>
 		<script src="mediaelement/facebook.min.js"></script>
@@ -67,7 +66,7 @@ session_start();
 			<div id="queue-list"></div>
 			<div id="queue-controls">
 				<button id="loop" style="color: grey;">
-					<i class="fas fa-retweet"></i>
+					<i class="fas fa-repeat"></i>
 				</button>
 				<button id="next">
 					<i class="fas fa-step-forward"></i>

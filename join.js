@@ -66,19 +66,19 @@ window.addEventListener('load', () => {
 	loopButton.setLoopOneIcon = function() {
 		this.style.color = 'black';
 		this.icon = "loop-one";
-		this.innerHTML = '<i class="fas fa-retweet"></i>';
+		this.innerHTML = '<i class="fas fa-repeat"></i>';
 	}
 
 	loopButton.setLoopAllIcon = function() {
 		this.style.color = 'black';
 		this.icon = 'loop-all';
-		this.innerHTML = '<i class="fas fa-list-alt"></i>';
+		this.innerHTML = '<i class="fas fa-repeat"></i><i class="fas fa-list"></i>';
 	}
 
 	loopButton.setContinueIcon = function() {
 		this.style.color = 'grey';
 		this.icon = "continue";
-		this.innerHTML = '<i class="fas fa-retweet"></i>';
+		this.innerHTML = '<i class="fas fa-repeat"></i>';
 	}
 
 	loopButton.mode = 0;
