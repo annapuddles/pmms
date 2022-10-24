@@ -15,16 +15,16 @@ $stmt->close();
 if (isset($_GET["source"])) {
 	$source = $_GET["source"];
 
-	$stmt = $conn->prepare("SELECT room.id AS id, source.source_url AS url, title, UNIX_TIMESTAMP() - start_time AS time, paused, loop_media, owner, locked FROM room JOIN source ON room.url = source.url WHERE room_key = ? AND source_name = ?");
+	$stmt = $conn->prepare("SELECT room.id AS id, source.source_url AS url, title, start_time, UNIX_TIMESTAMP() - start_time AS time, paused, loop_media, owner, locked FROM room JOIN source ON room.url = source.url WHERE room_key = ? AND source_name = ?");
 
 	$stmt->bind_param("ss", $room, $source);
 } else {
-	$stmt = $conn->prepare("SELECT id, url, title, UNIX_TIMESTAMP() - start_time AS time, paused, loop_media, owner, locked FROM room WHERE room_key = ?");
+	$stmt = $conn->prepare("SELECT id, url, title, start_time, UNIX_TIMESTAMP() - start_time AS time, paused, loop_media, owner, locked FROM room WHERE room_key = ?");
 
 	$stmt->bind_param("s", $room);
 }
 
-$stmt->bind_result($room_id, $url, $title, $time, $paused, $loop_media, $owner, $locked);
+$stmt->bind_result($room_id, $url, $title, $start_time, $time, $paused, $loop_media, $owner, $locked);
 $stmt->execute();
 $stmt->fetch();
 $stmt->close();
@@ -41,6 +41,7 @@ $conn->close();
 $data = [
 	"url" => $url,
 	"title" => $title,
+	"start_time" => $start_time,
 	"time" => $time,
 	"paused" => $paused,
 	"loop" => $loop_media,

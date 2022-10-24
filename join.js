@@ -270,6 +270,9 @@ window.addEventListener('load', () => {
 
 							currentTime = media.duration;
 
+							progressBar.value = currentTime;
+							currentTimecode.innerHTML = timeToString(currentTime);
+
 							media.pause();
 
 							return;
@@ -295,6 +298,15 @@ window.addEventListener('load', () => {
 					playButton.setPauseIcon();
 				}
 			} else {
+				let currentTime = resp.paused - resp.start_time;
+
+				progressBar.value = currentTime;
+				currentTimecode.innerHTML = timeToString(currentTime);
+
+				if (Math.abs(media.currentTime - currentTime) > syncTolerance) {
+					media.currentTime = currentTime;
+				}
+
 				if (!media.paused) {
 					media.pause();
 				}
