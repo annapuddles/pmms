@@ -288,4 +288,40 @@ function enqueue_youtube_video($conn, $room_id, $video_id) {
 
 	return enqueue_video($conn, $room_id, $url, $title);
 }
+
+function get_youtube_search_results($query = null) {
+	global $Config;
+
+	if (!array_key_exists("api_key", $Config["youtube"])) {
+		error_log("No YouTube API key specified in config.ini!");
+		return [];
+	}
+
+	$url = "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video,playlist&maxResults=50&key=" . $Config["youtube"]["api_key"];
+
+	if (isset($query)) {
+		$url = $url . "&q=" . urlencode($query);
+	}
+
+	$raw_results = json_decode(file_get_contents($url));
+
+	$results = [];
+
+	foreach ($raw_results->items as $result) {
+		if ($result->id->kind == "youtube#video") {
+			$url = "https://youtube.com/watch?v=" . $result->id->videoId;
+		} else if ($result->id->kind == "youtube#playlist") {
+			$url = "https://youtube.com/playlist?list=" . $result->id->playlistId;
+		}
+
+		$results[] = [
+			"url" => $url,
+			"title" => $result->snippet->title,
+			"cover" => $result->snippet->thumbnails->high->url,
+			"type" => $result->id->kind
+		];
+	}
+
+	return $results;
+}
 ?>

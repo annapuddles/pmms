@@ -1,5 +1,5 @@
 @import "fontawesome-free-6.2.0-web/css/fontawesome.min.css";
-@import "fontawesome-free-6.2.0-web/css/solid.min.css";
+@import "fontawesome-free-6.2.0-web/css/all.min.css";
 
 html, body, input, button {
 	font-family: Helvetica, "Font Awesome 6 Free";

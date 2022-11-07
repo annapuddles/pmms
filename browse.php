@@ -32,6 +32,10 @@ session_start();
 				<i class="fas fa-music"></i>
 				<span>Music</span>
 			</button>
+			<button id="category-youtube">
+				<i class="fa-brands fa-youtube"></i>
+				<span>YouTube</span>
+			</button>
 		</div>
 		<div id="search">
 			<select id="genre">

@@ -12,6 +12,7 @@ window.addEventListener('load', function() {
 	let movieButton = document.getElementById('category-movie');
 	let tvButton = document.getElementById('category-tv');
 	let musicButton = document.getElementById('category-music');
+	let youTubeButton = document.getElementById('category-youtube');
 
 	let genreSelect = document.getElementById('genre');
 
@@ -56,11 +57,25 @@ window.addEventListener('load', function() {
 		window.location = url.toString();
 	});
 
-	if (series) {
+	youTubeButton.addEventListener('click', function() {
+		url.searchParams.set('category', 'youtube');
+		url.searchParams.delete('genre');
+		url.searchParams.delete('series');
+		url.searchParams.delete('query');
+		window.location = url.toString();
+	});
+
+	if (series || category == 'youtube') {
 		allButton.style.color = 'grey';
 		movieButton.style.color = 'grey';
 		tvButton.style.color = 'grey';
 		musicButton.style.color = 'grey';
+
+		if (category == 'youtube') {
+			youTubeButton.style.color = 'black';
+		} else {
+			youTubeButton.style.color = 'grey';
+		}
 
 		genreSelect.style.display = 'none';
 	} else {
@@ -70,24 +85,28 @@ window.addEventListener('load', function() {
 				movieButton.style.color = 'black';
 				tvButton.style.color = 'grey';
 				musicButton.style.color = 'grey';
+				youTubeButton.style.color = 'grey';
 				break;
 			case 'tv':
 				allButton.style.color = 'grey';
 				movieButton.style.color = 'grey';
 				tvButton.style.color = 'black';
 				musicButton.style.color = 'grey';
+				youTubeButton.style.color = 'grey';
 				break;
 			case 'music':
 				allButton.style.color = 'grey';
 				movieButton.style.color = 'grey';
 				tvButton.style.color = 'grey';
 				musicButton.style.color = 'black';
+				youTubeButton.style.color = 'grey';
 				break;
 			default:
 				allButton.style.color = 'black';
 				movieButton.style.color = 'grey';
 				tvButton.style.color = 'grey';
 				musicButton.style.color = 'grey';
+				youTubeButton.style.color = 'grey';
 				break;
 		}
 
@@ -178,7 +197,13 @@ window.addEventListener('load', function() {
 		});
 	}
 
-	let catalogUrl = 'catalog.php?' + url.searchParams.toString();
+	let catalogUrl;
+
+	if (category == 'youtube') {
+		catalogUrl = 'youtube-search.php?' + url.searchParams.toString();
+	} else {
+		catalogUrl = 'catalog.php?' + url.searchParams.toString();
+	}
 
 	fetch(catalogUrl).then(resp => resp.json()).then(data => {
 		if (data.length == 0) {
@@ -212,7 +237,15 @@ window.addEventListener('load', function() {
 
 				let titleDiv = document.createElement('div');
 				titleDiv.className = 'title';
-				titleDiv.innerHTML = entry.title;
+
+				if (entry.type == 'youtube#video') {
+					titleDiv.innerHTML = '<i class="fa-brands fa-youtube"></i> ' + entry.title;
+				} else if (entry.type == 'youtube#playlist') {
+					titleDiv.innerHTML = '<i class="fa-solid fa-list"></i> ' + entry.title;
+				} else {
+					titleDiv.innerHTML = entry.title;
+				}
+
 				div.appendChild(titleDiv);
 
 				catalogDiv.appendChild(div);
