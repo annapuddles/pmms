@@ -16,6 +16,7 @@ window.addEventListener('load', function() {
 	let genreSelect = document.getElementById('genre');
 
 	let searchQuery = document.getElementById('query');
+	let clearSearchButton = document.getElementById('clear-search');
 	let searchButton = document.getElementById('search-button');
 
 	homeButton.addEventListener('click', function() {
@@ -27,6 +28,7 @@ window.addEventListener('load', function() {
 		url.searchParams.delete('category');
 		url.searchParams.delete('genre');
 		url.searchParams.delete('series');
+		url.searchParams.delete('query');
 		window.location = url.toString();
 	});
 
@@ -34,6 +36,7 @@ window.addEventListener('load', function() {
 		url.searchParams.set('category', 'movie');
 		url.searchParams.delete('genre');
 		url.searchParams.delete('series');
+		url.searchParams.delete('query');
 		window.location = url.toString();
 	});
 
@@ -41,6 +44,7 @@ window.addEventListener('load', function() {
 		url.searchParams.set('category', 'tv');
 		url.searchParams.delete('genre');
 		url.searchParams.delete('series');
+		url.searchParams.delete('query');
 		window.location = url.toString();
 	});
 
@@ -48,6 +52,7 @@ window.addEventListener('load', function() {
 		url.searchParams.set('category', 'music');
 		url.searchParams.delete('genre');
 		url.searchParams.delete('series');
+		url.searchParams.delete('query');
 		window.location = url.toString();
 	});
 
@@ -118,6 +123,11 @@ window.addEventListener('load', function() {
 		});
 	}
 
+	clearSearchButton.addEventListener('click', function() {
+		searchQuery.value = '';
+		this.style.display = 'none';
+	});
+
 	searchButton.addEventListener('click', function() {
 		if (searchQuery.value == '') {
 			url.searchParams.delete('query');
@@ -135,10 +145,18 @@ window.addEventListener('load', function() {
 				url.searchParams.set('query', this.value);
 			}
 			window.location = url.toString();
+		} else if (searchQuery.value == '') {
+			clearSearchButton.style.display = 'none';
+		} else {
+			clearSearchButton.style.display = null;
 		}
 	});
 
 	searchQuery.value = url.searchParams.get('query');
+
+	if (searchQuery.value == '') {
+		clearSearchButton.style.display = 'none';
+	}
 
 	function addCatalogEntryClickListener(div, entry) {
 		div.addEventListener('click', () => {

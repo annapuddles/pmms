@@ -38,6 +38,7 @@ session_start();
 				<option value="">All genres</option>
 			</select>
 			<input type="text" id="query">
+			<button id="clear-search"><i class="fa-solid fa-xmark"></i></button>
 			<button id="search-button"><i class="fas fa-search"></i> Search</button>
 		</div>
 		<div id="catalog"></div>
