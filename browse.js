@@ -124,8 +124,13 @@ window.addEventListener('load', function() {
 	}
 
 	clearSearchButton.addEventListener('click', function() {
-		searchQuery.value = '';
-		this.style.display = 'none';
+		if (url.searchParams.get('query')) {
+			url.searchParams.delete('query');
+			window.location = url.toString();
+		} else {
+			searchQuery.value = '';
+			this.style.display = 'none';
+		}
 	});
 
 	searchButton.addEventListener('click', function() {
