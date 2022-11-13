@@ -23,74 +23,33 @@ window.addEventListener('load', function() {
 		window.location = '.';
 	});
 
+	document.querySelectorAll('.category-button').forEach(button => {
+		let buttonCategory = button.getAttribute('data-category');
 
-	allButton.addEventListener('click', function() {
-		url.searchParams.delete('category');
-		url.searchParams.delete('genre');
-		url.searchParams.delete('series');
-		url.searchParams.delete('query');
-		window.location = url.toString();
-	});
+		button.addEventListener('click', function() {
 
-	movieButton.addEventListener('click', function() {
-		url.searchParams.set('category', 'movie');
-		url.searchParams.delete('genre');
-		url.searchParams.delete('series');
-		url.searchParams.delete('query');
-		window.location = url.toString();
-	});
+			if (buttonCategory) {
+				url.searchParams.set('category', buttonCategory);
+			} else {
+				url.searchParams.delete('category');
+			}
 
-	tvButton.addEventListener('click', function() {
-		url.searchParams.set('category', 'tv');
-		url.searchParams.delete('genre');
-		url.searchParams.delete('series');
-		url.searchParams.delete('query');
-		window.location = url.toString();
-	});
+			url.searchParams.delete('genre');
+			url.searchParams.delete('series');
+			url.searchParams.delete('query');
+			window.location = url.toString();
+		});
 
-	musicButton.addEventListener('click', function() {
-		url.searchParams.set('category', 'music');
-		url.searchParams.delete('genre');
-		url.searchParams.delete('series');
-		url.searchParams.delete('query');
-		window.location = url.toString();
+		if (series || buttonCategory != category) {
+			button.style.color = 'grey';
+		} else {
+			button.style.color = 'black';
+		}
 	});
 
 	if (series) {
-		allButton.style.color = 'grey';
-		movieButton.style.color = 'grey';
-		tvButton.style.color = 'grey';
-		musicButton.style.color = 'grey';
-
 		genreSelect.style.display = 'none';
 	} else {
-		switch (category) {
-			case 'movie':
-				allButton.style.color = 'grey';
-				movieButton.style.color = 'black';
-				tvButton.style.color = 'grey';
-				musicButton.style.color = 'grey';
-				break;
-			case 'tv':
-				allButton.style.color = 'grey';
-				movieButton.style.color = 'grey';
-				tvButton.style.color = 'black';
-				musicButton.style.color = 'grey';
-				break;
-			case 'music':
-				allButton.style.color = 'grey';
-				movieButton.style.color = 'grey';
-				tvButton.style.color = 'grey';
-				musicButton.style.color = 'black';
-				break;
-			default:
-				allButton.style.color = 'black';
-				movieButton.style.color = 'grey';
-				tvButton.style.color = 'grey';
-				musicButton.style.color = 'grey';
-				break;
-		}
-
 		let genresUrl = 'genres.php';
 
 		if (category) {

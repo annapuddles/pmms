@@ -16,19 +16,19 @@ session_start();
 			<i class="fas fa-house"></i>
 		</button>
 		<div id="categories">
-			<button id="category-all">
+			<button class="category-button">
 				<i class="fas fa-grip-horizontal"></i>
 				<span>All</span>
 			</button>
-			<button id="category-movie">
+			<button class="category-button" data-category="movie">
 				<i class="fas fa-film"></i>
 				<span>Movies</span>
 			</button>
-			<button id="category-tv">
+			<button class="category-button" data-category="tv">
 				<i class="fas fa-tv"></i>
 				<span>TV</span>
 			</button>
-			<button id="category-music">
+			<button class="category-button" data-category="music">
 				<i class="fas fa-music"></i>
 				<span>Music</span>
 			</button>
