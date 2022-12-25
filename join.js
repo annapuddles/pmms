@@ -124,7 +124,7 @@ window.addEventListener('load', () => {
 	function enqueueVideo() {
 		let url = urlField.value;
 		urlField.value = '';
-		fetch(`enqueue.php?room=${roomKey}&url=${encodeURI(url)}`);
+		fetch(`enqueue.php?room=${roomKey}&url=${encodeURIComponent(url)}`);
 	}
 
 	setInterval(() => {

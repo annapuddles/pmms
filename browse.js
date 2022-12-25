@@ -132,9 +132,15 @@ window.addEventListener('load', function() {
 				window.location = url.toString();
 			} else {
 				if (roomKey == null) {
-					window.location = `create.php?url=${entry.url}&title=${entry.title}`;
+					let url = encodeURIComponent(entry.url);
+					let title = encodeURIComponent(entry.title);
+
+					window.location = `create.php?url=${url}&title=${title}`;
 				} else {
-					fetch(`enqueue.php?room=${roomKey}&url=${encodeURI(entry.url)}&title=${entry.title}`).then(resp => {
+					let url = encodeURIComponent(entry.url);
+					let title = encodeURIComponent(entry.title);
+
+					fetch(`enqueue.php?room=${roomKey}&url=${url}&title=${title}`).then(resp => {
 						window.location = `join.php?room=${roomKey}`;
 					});
 				}
@@ -155,7 +161,7 @@ window.addEventListener('load', function() {
 
 				playAllDiv.innerHTML = '<div class="cover"><button><i class="fas fa-play"></i></button></div><div class="title">Play All</div>';
 
-				addCatalogEntryClickListener(playAllDiv, {url: encodeURI("series=" + series)}, roomKey);
+				addCatalogEntryClickListener(playAllDiv, {url: encodeURIComponent("series=" + series)}, roomKey);
 
 				catalogDiv.appendChild(playAllDiv);
 			}
