@@ -166,6 +166,12 @@ window.addEventListener('load', function() {
 				catalogDiv.appendChild(playAllDiv);
 			}
 
+			let randomButton = document.createElement('div');
+			randomButton.className = 'catalog-entry';
+			randomButton.innerHTML = '<div class="cover"><button><i class="fas fa-dice"></i></button></div><div class="title">Random</div>';
+			addCatalogEntryClickListener(randomButton, data[Math.floor(Math.random() * data.length)]);
+			catalogDiv.appendChild(randomButton);
+
 			data.forEach(entry => {
 				let div = document.createElement('div');
 
