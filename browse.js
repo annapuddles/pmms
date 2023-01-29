@@ -161,7 +161,7 @@ window.addEventListener('load', function() {
 
 				playAllDiv.innerHTML = '<div class="cover"><button><i class="fas fa-play"></i></button></div><div class="title">Play All</div>';
 
-				addCatalogEntryClickListener(playAllDiv, {url: encodeURIComponent("series=" + series)}, roomKey);
+				addCatalogEntryClickListener(playAllDiv, {url: "series=" + series}, roomKey);
 
 				catalogDiv.appendChild(playAllDiv);
 			}
