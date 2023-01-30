@@ -50,6 +50,7 @@ window.addEventListener('load', () => {
 	let seekForwardButton = document.getElementById('seek-forward');
 	let currentVideoTitle = document.getElementById('current-video-title');
 	let pinnedButton = document.getElementById('pinned');
+	let shuffleButton = document.getElementById('shuffle');
 
 	playButton.setPauseIcon = function() {
 		this.innerHTML = '<i class="fas fa-pause"></i>';
@@ -119,6 +120,9 @@ window.addEventListener('load', () => {
 		loopButton.disabled = disabled;
 		catalogButton.disabled = disabled;
 		clearQueueButton.disabled = disabled;
+		shuffleButton.disabled = disabled;
+		seekForwardButton.disabled = disabled;
+		seekBackwardButton.disabled = disabled;
 	}
 
 	function enqueueVideo() {
@@ -252,10 +256,12 @@ window.addEventListener('load', () => {
 					currentTime = -1;
 					duration = -1;
 				} else {
-					playButton.disabled = false;
-					progressBar.disabled = false;
-					seekForwardButton.disabled = false;
-					seekBackwardButton.disabled = false;
+					if (!resp.locked) {
+						playButton.disabled = false;
+						progressBar.disabled = false;
+						seekForwardButton.disabled = false;
+						seekBackwardButton.disabled = false;
+					}
 
 					currentTime = resp.time;
 					duration = media.duration;
@@ -459,5 +465,9 @@ window.addEventListener('load', () => {
 			document.getElementById('controls').style.visibility = 'visible';
 			this.className = 'active';
 		}
+	});
+
+	shuffleButton.addEventListener('click', function() {
+		fetch(`shuffle.php?room=${roomKey}`);
 	});
 });

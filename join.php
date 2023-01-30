@@ -68,6 +68,9 @@ session_start();
 				<button id="loop" style="color: grey;">
 					<i class="fas fa-repeat"></i>
 				</button>
+				<button id="shuffle">
+					<i class="fas fa-shuffle"></i>
+				</button>
 				<button id="next">
 					<i class="fas fa-step-forward"></i>
 				</button>

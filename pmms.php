@@ -288,4 +288,56 @@ function enqueue_youtube_video($conn, $room_id, $video_id) {
 
 	return enqueue_video($conn, $room_id, $url, $title);
 }
+
+function shuffle_queue($conn, $room) {
+	$room_id = get_room_id($conn, $room);
+
+	$stmt = $conn->prepare("SELECT url, title FROM queue WHERE room_id = ?");
+	$stmt->bind_param("i", $room_id);
+	$stmt->execute();
+
+	$result = $stmt->get_result();
+	$queue = [];
+
+	while ($row = $result->fetch_assoc()) {
+		$queue[] = [
+			"url" => $row["url"],
+			"title" => $row["title"]
+		];
+	}
+
+	$stmt->close();
+
+	$stmt = $conn->prepare("SELECT url, title FROM room WHERE id = ?");
+	$stmt->bind_param("i", $room_id);
+	$stmt->bind_result($url, $title);
+	$stmt->execute();
+	$stmt->fetch();
+	$stmt->close();
+
+	$queue[] = [
+		"url" => $url,
+		"title" => $title
+	];
+
+	clear_queue($conn, $room);
+
+	shuffle($queue);
+
+	$queue_id = null;
+
+	foreach ($queue as $item) {
+		$stmt = $conn->prepare("INSERT INTO queue (room_id, url, title) VALUES (?, ?, ?)");
+		$stmt->bind_param("iss", $room_id, $item["url"], $item["title"]);
+		$stmt->execute();
+
+		if ($queue_id == null) {
+			$queue_id = $stmt->insert_id;
+		}
+
+		$stmt->close();
+	}
+
+	return $queue_id;
+}
 ?>
