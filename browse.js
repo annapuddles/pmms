@@ -131,15 +131,12 @@ window.addEventListener('load', function() {
 				url.searchParams.delete('query');
 				window.location = url.toString();
 			} else {
-				if (roomKey == null) {
-					let url = encodeURIComponent(entry.url);
-					let title = encodeURIComponent(entry.title);
+				let url = encodeURIComponent(entry.url);
+				let title = encodeURIComponent(entry.title);
 
+				if (roomKey == null) {
 					window.location = `create.php?url=${url}&title=${title}`;
 				} else {
-					let url = encodeURIComponent(entry.url);
-					let title = encodeURIComponent(entry.title);
-
 					fetch(`enqueue.php?room=${roomKey}&url=${url}&title=${title}`).then(resp => {
 						window.location = `join.php?room=${roomKey}`;
 					});
