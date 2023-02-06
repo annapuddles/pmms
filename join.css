@@ -171,6 +171,24 @@ button.active {
 	flex-grow: 1;
 }
 
+#connection-lost-notice {
+	display: none;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 2vmax;
+	color: red;
+	background-color: rgb(0, 0, 0, .7);
+	border-radius: 10px;
+	padding: 1vh 1vw;
+}
+
+#connection-lost-notice #icon {
+	text-align: center;
+	font-size: 4vmax;
+}
+
 @media (hover: none) and (orientation: portrait) {
 	html, body {
 		overflow: auto;

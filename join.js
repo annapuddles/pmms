@@ -1,9 +1,11 @@
 const syncInterval = 1000;
 const queueUpdateInterval = 2000;
+const maxRoomSyncAttempts = 3;
 
 let syncTolerance = 2;
 let media = null;
 let currentUrl = null;
+let roomSyncAttempts = maxRoomSyncAttempts;
 
 function timeToString(time) {
 	if (time == null || time <= 0) {
@@ -51,6 +53,7 @@ window.addEventListener('load', () => {
 	let currentVideoTitle = document.getElementById('current-video-title');
 	let pinnedButton = document.getElementById('pinned');
 	let shuffleButton = document.getElementById('shuffle');
+	let connectionLostNotice = document.getElementById('connection-lost-notice');
 
 	playButton.setPauseIcon = function() {
 		this.innerHTML = '<i class="fas fa-pause"></i>';
@@ -140,7 +143,20 @@ window.addEventListener('load', () => {
 			url = `sync.php?room=${roomKey}&source=${sourceSelect.value}`;
 		}
 
-		fetch(url).then(resp => resp.json()).then(resp => {
+		fetch(url)
+		.then(resp => {
+			if (resp.ok) {
+				return resp.json();
+			} else {
+				reject();
+			}
+		})
+		.then(resp => {
+			roomSyncAttempts = maxRoomSyncAttempts;
+			if (connectionLostNotice.style.display != "none") {
+				connectionLostNotice.style.display = "none";
+			}
+
 			if (resp.locked) {
 				if (lockButton.icon == "unlocked") {
 					lockButton.setLockedIcon();
@@ -320,6 +336,15 @@ window.addEventListener('load', () => {
 				if (playButton.icon == "pause") {
 					playButton.setPlayIcon();
 				}
+			}
+		})
+		.catch(err => {
+			if (roomSyncAttempts == 0) {
+				if (connectionLostNotice.style.display != 'block') {
+					connectionLostNotice.style.display = 'block';
+				}
+			} else {
+				--roomSyncAttempts;
 			}
 		});
 	}, syncInterval);
