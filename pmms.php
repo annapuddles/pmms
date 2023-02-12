@@ -14,7 +14,7 @@ function create_db_connection() {
 function prune_rooms($conn) {
 	global $Config;
 
-	$stmt = $conn->prepare("DELETE FROM room WHERE UNIX_TIMESTAMP() - last_sync > ?");
+	$stmt = $conn->prepare("DELETE FROM room WHERE last_sync IS NOT NULL AND UNIX_TIMESTAMP() - last_sync > ?");
 	$stmt->bind_param("i", $Config["rooms"]["prune_after"]);
 	$stmt->execute();
 	$stmt->close();

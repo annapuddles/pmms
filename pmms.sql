@@ -14,7 +14,7 @@ CREATE TABLE room (
 	start_time BIGINT NOT NULL,
 	paused BIGINT,
 	loop_media BOOLEAN NOT NULL DEFAULT FALSE,
-	last_sync BIGINT NOT NULL,
+	last_sync BIGINT,
 	owner VARCHAR(127) NOT NULL,
 	locked BOOLEAN NOT NULL DEFAULT FALSE,
 	PRIMARY KEY (id)
