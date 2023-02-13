@@ -7,10 +7,7 @@ $room = $_GET["room"];
 
 $conn = create_db_connection();
 
-$stmt = $conn->prepare("UPDATE room SET last_sync = UNIX_TIMESTAMP() WHERE room_key = ? AND last_sync IS NOT NULL");
-$stmt->bind_param("s", $room);
-$stmt->execute();
-$stmt->close();
+bump_room($conn, $room);
 
 if (isset($_GET["source"])) {
 	$source = $_GET["source"];

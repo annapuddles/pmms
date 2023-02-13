@@ -14,8 +14,7 @@ function create_db_connection() {
 function prune_rooms($conn) {
 	global $Config;
 
-	$stmt = $conn->prepare("DELETE FROM room WHERE last_sync IS NOT NULL AND UNIX_TIMESTAMP() - last_sync > ?");
-	$stmt->bind_param("i", $Config["rooms"]["prune_after"]);
+	$stmt = $conn->prepare("DELETE FROM room WHERE expires IS NOT NULL AND expires < NOW()");
 	$stmt->execute();
 	$stmt->close();
 }
@@ -39,8 +38,8 @@ function create_room($conn, $url, $title = null, $locked = null, $owner = null) 
 		$owner = session_id();
 	}
 
-	$stmt = $conn->prepare("INSERT INTO room (room_key, start_time, last_sync, owner, locked) VALUES (?, UNIX_TIMESTAMP() + 2, UNIX_TIMESTAMP(), ?, ?)");
-	$stmt->bind_param("ssi", $room, $owner, $locked);
+	$stmt = $conn->prepare("INSERT INTO room (room_key, start_time, expires, owner, locked) VALUES (?, UNIX_TIMESTAMP() + 2, DATE_ADD(NOW(), INTERVAL ? SECOND), ?, ?)");
+	$stmt->bind_param("sisi", $room, $Config["rooms"]["prune_after"], $owner, $locked);
 	$result = $stmt->execute();
 	$stmt->close();
 
@@ -281,9 +280,9 @@ function enqueue_youtube_video($conn, $room_id, $video_id) {
 	$url = "https://youtube.com/watch?v=" . $video_id;
 
 	if ($video) {
-		$title = $title . $video->snippet->title;
+		$title = $video->snippet->title;
 	} else {
-		$title = $title . $url;
+		$title = $url;
 	}
 
 	return enqueue_video($conn, $room_id, $url, $title);
@@ -339,5 +338,14 @@ function shuffle_queue($conn, $room) {
 	}
 
 	return $queue_id;
+}
+
+function bump_room($conn, $room) {
+	global $Config;
+
+	$stmt = $conn->prepare("UPDATE room SET expires = DATE_ADD(NOW(), INTERVAL ? SECOND) WHERE room_key = ? AND expires IS NOT NULL");
+	$stmt->bind_param("is", $Config["rooms"]["prune_after"], $room);
+	$stmt->execute();
+	$stmt->close();
 }
 ?>

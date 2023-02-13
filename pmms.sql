@@ -1,9 +1,9 @@
 DROP TABLE IF EXISTS queue;
 DROP TABLE IF EXISTS room;
+DROP TABLE IF EXISTS catalog_genre;
 DROP TABLE IF EXISTS catalog;
 DROP TABLE IF EXISTS source;
 DROP TABLE IF EXISTS genre;
-DROP TABLE IF EXISTS catalog_genre;
 DROP VIEW IF EXISTS catalog_with_genre;
 
 CREATE TABLE room (
@@ -14,7 +14,7 @@ CREATE TABLE room (
 	start_time BIGINT NOT NULL,
 	paused BIGINT,
 	loop_media BOOLEAN NOT NULL DEFAULT FALSE,
-	last_sync BIGINT,
+	expires DATETIME,
 	owner VARCHAR(127) NOT NULL,
 	locked BOOLEAN NOT NULL DEFAULT FALSE,
 	PRIMARY KEY (id)
