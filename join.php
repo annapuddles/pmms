@@ -106,7 +106,7 @@ session_start();
 			<div id="icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
 			<p><strong>Connection to the server has been lost.</strong></p>
 			<p>This room may have expired or the server may have gone offline temporarily.</p>
-			<p>If this persists, click the home button on the controls below and try creating a new room.</p>
+			<p>If this persists, click the <i class="fas fa-home"></i> button on the controls below and try creating a new room.</p>
 		</div>
 	</body>
 </html>

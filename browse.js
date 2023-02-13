@@ -5,7 +5,6 @@ window.addEventListener('load', function() {
 	let category = url.searchParams.get('category');
 	let genre = url.searchParams.get('genre');
 
-	let homeButton = document.getElementById('home');
 	let catalogDiv = document.getElementById('catalog');
 
 	let allButton = document.getElementById('category-all');
@@ -19,9 +18,10 @@ window.addEventListener('load', function() {
 	let clearSearchButton = document.getElementById('clear-search');
 	let searchButton = document.getElementById('search-button');
 
-	homeButton.addEventListener('click', function() {
-		window.location = '.';
-	});
+	let customPopup = document.getElementById('custom-popup');
+	let closeCustomPopupButton = document.getElementById('close-custom-popup');
+	let customUrlInput = document.getElementById('custom-url');
+	let createCustomRoomButton = document.getElementById('create-custom-room');
 
 	document.querySelectorAll('.category-button').forEach(button => {
 		let buttonCategory = button.getAttribute('data-category');
@@ -122,6 +122,21 @@ window.addEventListener('load', function() {
 		clearSearchButton.style.display = 'none';
 	}
 
+	closeCustomPopupButton.addEventListener('click', function() {
+		customPopup.style.display = 'none';
+		catalogDiv.className = '';
+	});
+
+	createCustomRoomButton.addEventListener('click', function() {
+		window.location = `create.php?url=${encodeURIComponent(customUrlInput.value)}`;
+	});
+
+	customUrlInput.addEventListener('keyup', function(e) {
+		if (e.code == 'Enter' && this.value != '') {
+			window.location = `create.php?url=${encodeURIComponent(this.value)}`;
+		}
+	});
+
 	function addCatalogEntryClickListener(div, entry) {
 		div.addEventListener('click', () => {
 			if (entry.url == null) {
@@ -148,8 +163,23 @@ window.addEventListener('load', function() {
 	let catalogUrl = 'catalog.php?' + url.searchParams.toString();
 
 	fetch(catalogUrl).then(resp => resp.json()).then(data => {
+		if (series == null && category == null && searchQuery.value == '') {
+			let customButton = document.createElement('div');
+			customButton.className = 'catalog-entry';
+			customButton.innerHTML = '<div class="cover"><button><i class="fas fa-link"></i></button></div><div class="title">Custom URL</div>';
+
+			customButton.addEventListener('click', function() {
+				customPopup.style.display = null;
+				catalogDiv.className = 'disabled';
+			});
+
+			catalogDiv.appendChild(customButton);
+		}
+
 		if (data.length == 0) {
-			catalogDiv.innerHTML = '<div id="no-results">No results found.</div>';
+			if (searchQuery.value != '') {
+				catalogDiv.innerHTML = '<div id="no-results">No results found.</div>';
+			}
 		} else {
 			if (series && searchQuery.value == '') {
 				let playAllDiv = document.createElement('div');
