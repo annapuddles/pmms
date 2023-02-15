@@ -7,6 +7,8 @@ window.addEventListener('load', function() {
 
 	let catalogDiv = document.getElementById('catalog');
 
+	let homeButton = document.getElementById('home');
+
 	let allButton = document.getElementById('category-all');
 	let movieButton = document.getElementById('category-movie');
 	let tvButton = document.getElementById('category-tv');
@@ -22,6 +24,10 @@ window.addEventListener('load', function() {
 	let closeCustomPopupButton = document.getElementById('close-custom-popup');
 	let customUrlInput = document.getElementById('custom-url');
 	let createCustomRoomButton = document.getElementById('create-custom-room');
+
+	homeButton.addEventListener('click', function() {
+		window.location = '.';
+	});
 
 	document.querySelectorAll('.category-button').forEach(button => {
 		let buttonCategory = button.getAttribute('data-category');

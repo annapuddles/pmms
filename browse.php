@@ -12,6 +12,9 @@ session_start();
 		<link rel="stylesheet" href="browse.css">
 	</head>
 	<body>
+		<button id="home">
+			<i class="fa-solid fa-home"></i>
+		</button>
 		<div id="filters">
 			<div id="categories">
 				<button class="category-button">

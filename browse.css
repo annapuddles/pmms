@@ -17,6 +17,10 @@ select {
 	font-size: 2vmax;
 }
 
+#home {
+	font-size: 2.5vmax;
+}
+
 #filters {
 	position: sticky;
 	top: 0;
