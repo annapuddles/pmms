@@ -23,6 +23,20 @@ function timeToString(time) {
 	return String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
 }
 
+function setCaptions(name) {
+	let video = document.querySelector('video');
+
+	for (let i = 0; i < video.textTracks.length; ++i) {
+		if (video.textTracks[i].label == name) {
+			video.textTracks[i].mode = 'showing';
+		} else {
+			video.textTracks[i].mode = 'hidden';
+		}
+	}
+
+	localStorage.captions = name;
+}
+
 window.addEventListener('load', () => {
 	let url = new URL(window.location);
 	let roomKey = url.searchParams.get("room");
@@ -54,6 +68,7 @@ window.addEventListener('load', () => {
 	let pinnedButton = document.getElementById('pinned');
 	let shuffleButton = document.getElementById('shuffle');
 	let connectionLostNotice = document.getElementById('connection-lost-notice');
+	let captionsSelect = document.getElementById('captions');
 
 	playButton.setPauseIcon = function() {
 		this.innerHTML = '<i class="fas fa-pause"></i>';
@@ -188,49 +203,80 @@ window.addEventListener('load', () => {
 				video.src = resp.url;
 				videoContainer.appendChild(video);
 
-				media = new MediaElement('video');
+				fetch(`captions.php?room=${roomKey}`).then(resp => resp.json()).then(captions => {
+					captions.forEach(captions => {
+						let track = document.createElement('track');
+						track.kind = 'subtitles';
+						track.label = captions.name;
+						track.src = captions.url;
+						video.appendChild(track);
+					});
 
-				media.isLive = () => false;
-
-				media.addEventListener('canplay', () => {
-					progressBar.max = media.duration;
-					durationTimecode.innerHTML = timeToString(media.duration);
-
-					media.volume = volumeSlider.value / 100;
-
-					if (localStorage.muted) {
-						media.muted = localStorage.muted == 'true';
+					if (localStorage.captions) {
+						setCaptions(localStorage.captions);
 					}
 
-					media.isLive = () =>
-						media.duration == 0 || media.duration == Infinity ||
-						(media.youTubeApi && media.youTubeApi.getVideoData().isLive);
+					let selectedCaptions = captionsSelect.value;
 
-					media.play();
+					captionsSelect.innerHTML = '<option>off</option>';
 
-					media.isReady = true;
-				});
-
-				media.addEventListener('volumechange', () => {
-					volumeStatus.updateIcon();
-				});
-
-				fetch(`sources.php?room=${roomKey}`).then(resp => resp.json()).then(resp => {
-					let selected = sourceSelect.value;
-
-					sourceSelect.innerHTML = '<option>default</option>';
-
-					resp.forEach(source => {
+					captions.forEach(captions => {
 						let option = document.createElement('option');
 
-						option.value = source;
-						option.innerHTML = source;
+						option.value = captions.name;
+						option.innerHTML = captions.name;
 
-						sourceSelect.appendChild(option);
-
-						if (selected == source) {
-							sourceSelect.value = selected;
+						if (captions.name == localStorage.captions) {
+							option.selected = true;
 						}
+
+						captionsSelect.appendChild(option);
+					});
+
+					media = new MediaElement('video');
+
+					media.isLive = () => false;
+
+					media.addEventListener('canplay', () => {
+						progressBar.max = media.duration;
+						durationTimecode.innerHTML = timeToString(media.duration);
+
+						media.volume = volumeSlider.value / 100;
+
+						if (localStorage.muted) {
+							media.muted = localStorage.muted == 'true';
+						}
+
+						media.isLive = () =>
+							media.duration == 0 || media.duration == Infinity ||
+							(media.youTubeApi && media.youTubeApi.getVideoData().isLive);
+
+						media.play();
+
+						media.isReady = true;
+					});
+
+					media.addEventListener('volumechange', () => {
+						volumeStatus.updateIcon();
+					});
+
+					fetch(`sources.php?room=${roomKey}`).then(resp => resp.json()).then(resp => {
+						let selected = sourceSelect.value;
+
+						sourceSelect.innerHTML = '<option>default</option>';
+
+						resp.forEach(source => {
+							let option = document.createElement('option');
+
+							option.value = source;
+							option.innerHTML = source;
+
+							if (selected == source) {
+								option.selected = true;
+							}
+
+							sourceSelect.appendChild(option);
+						});
 					});
 				});
 			}
@@ -494,5 +540,9 @@ window.addEventListener('load', () => {
 
 	shuffleButton.addEventListener('click', function() {
 		fetch(`shuffle.php?room=${roomKey}`);
+	});
+
+	captionsSelect.addEventListener('input', function() {
+		setCaptions(this.value);
 	});
 });

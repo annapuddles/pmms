@@ -84,9 +84,15 @@ session_start();
 				<div class="settings-group-title"><i class="fas fa-user-cog"></i> User settings</div>
 				<div class="settings-group-main">
 					<div class="setting">
-						<div class="setting-label"><i class="fas fa-server"></i> <i class="fas fa-language"></i></div>
+						<div class="setting-label"><i class="fas fa-server"></i> / <i class="fas fa-language"></i></div>
 						<select id="source" class="setting-input">
 							<option>default</option>
+						</select>
+					</div>
+					<div class="setting">
+						<div class="setting-label"><i class="fa-solid fa-closed-captioning"></i></div>
+						<select id="captions" class="setting-input">
+							<option>off</option>
 						</select>
 					</div>
 				</div>

@@ -66,4 +66,12 @@ CREATE TABLE catalog_genre (
 	FOREIGN KEY (genre_id) REFERENCES genre (id) ON DELETE CASCADE
 );
 
+CREATE TABLE captions (
+	id INTEGER AUTO_INCREMENT,
+	url VARCHAR(1024) NOT NULL,
+	captions_name VARCHAR(16) NOT NULL,
+	captions_url VARCHAR(1024) NOT NULL,
+	PRIMARY KEY (id)
+);
+
 CREATE VIEW catalog_with_genre AS SELECT catalog.id AS id, url, title, sort_title, cover, category, series, keywords, hidden, genre.name AS genre FROM catalog JOIN catalog_genre ON catalog.id = catalog_genre.catalog_id JOIN genre ON genre.id = catalog_genre.genre_id;

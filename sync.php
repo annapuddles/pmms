@@ -39,8 +39,6 @@ if ($room_id == null) {
 	$stmt->fetch();
 	$stmt->close();
 
-	$conn->close();
-
 	$data = [
 		"url" => $url,
 		"title" => $title,
@@ -55,5 +53,7 @@ if ($room_id == null) {
 
 	echo json_encode($data);
 }
+
+$conn->close();
 
 ?>
