@@ -7,7 +7,7 @@ session_start();
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width">
-		<title>pmms - Poodle Multimedia System</title>
+		<title>pmms - Browsing the catalog</title>
 		<script src="browse.js"></script>
 		<link rel="stylesheet" href="browse.css">
 	</head>

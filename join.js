@@ -33,7 +33,7 @@ window.addEventListener('load', () => {
 	let urlField = document.getElementById('url');
 	let currentTimecode = document.getElementById('current-timecode');
 	let durationTimecode = document.getElementById('duration-timecode');
-	let homeButton = document.getElementById('home');
+	let exitButton = document.getElementById('exit');
 	let nextButton = document.getElementById('next');
 	let queueList = document.getElementById('queue-list');
 	let loopButton = document.getElementById('loop');
@@ -381,8 +381,8 @@ window.addEventListener('load', () => {
 		fetch(`seek.php?room=${roomKey}&time=${this.value}`);
 	});
 
-	homeButton.addEventListener('click', function() {
-		window.location = '.';
+	exitButton.addEventListener('click', function() {
+		window.location = 'browse.php';
 	});
 
 	urlField.addEventListener('keyup', function(e) {
