@@ -16,11 +16,11 @@ session_start();
 				<div>🐩</div>
 				<div>PMMS</div>
 				<div id="subtitle">Poodle's Multimedia System</div>
+				<button id="catalog">
+					<i class="fa-solid fa-grip-horizontal"></i>
+					<span>Browse</span>
+				</button>
 			</div>
-			<button id="catalog">
-				<i class="fa-solid fa-grip-horizontal"></i>
-				<span>Browse</span>
-			</button>
 		</div>
 	</body>
 </html>
