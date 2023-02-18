@@ -196,6 +196,7 @@ window.addEventListener('load', () => {
 
 				if (media != null) {
 					media.remove();
+					media = null;
 				}
 
 				let video = document.createElement('video');
