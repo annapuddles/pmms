@@ -177,6 +177,7 @@ window.addEventListener('load', function() {
 			customButton.addEventListener('click', function() {
 				customPopup.style.display = null;
 				catalogDiv.className = 'disabled';
+				customUrlInput.focus();
 			});
 
 			catalogDiv.appendChild(customButton);
