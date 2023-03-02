@@ -100,7 +100,7 @@ session_start();
 			<div class="settings-group">
 				<div class="settings-group-title"><i class="fas fa-users-cog"></i> Room settings</div>
 				<div class="settings-group-main">
-					<div class="setting">
+					<div class="setting no-label">
 						<button id="lock" class="setting-input">
 							<i class="fas fa-lock-open"></i>
 						</button>

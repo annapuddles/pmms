@@ -1,6 +1,7 @@
 const syncInterval = 1000;
 const queueUpdateInterval = 2000;
 const maxRoomSyncAttempts = 3;
+const mediaReadyTimeout = 5000;
 
 let syncTolerance = 2;
 let media = null;
@@ -199,9 +200,12 @@ window.addEventListener('load', () => {
 					media = null;
 				}
 
+				videoContainer.innerHTML = '';
+
 				let video = document.createElement('video');
 				video.id = 'video';
 				video.src = resp.url;
+				video.style.display = 'none';
 				videoContainer.appendChild(video);
 
 				fetch(`captions.php?room=${roomKey}`).then(resp => resp.json()).then(captions => {
@@ -236,9 +240,22 @@ window.addEventListener('load', () => {
 
 					media = new MediaElement('video');
 
+					media.style.display = 'none';
+
 					media.isLive = () => false;
 
+					let failedToLoad = setTimeout(() => {
+						if (media) {
+							media.remove();
+							media = null;
+						}
+					}, mediaReadyTimeout);
+
 					media.addEventListener('canplay', () => {
+						clearTimeout(failedToLoad);
+
+						media.style.display = null;
+
 						progressBar.max = media.duration;
 						durationTimecode.innerHTML = timeToString(media.duration);
 

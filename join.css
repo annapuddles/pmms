@@ -175,7 +175,7 @@ button.active {
 	flex-grow: 1;
 }
 
-#lock {
+.setting.no-label .setting-input {
 	grid-column: span 2;
 }
 
