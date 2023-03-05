@@ -17,13 +17,23 @@ select {
 	font-size: 2vmax;
 }
 
-#home {
+#header {
+	position: sticky;
+	top: 0;
+	background-color: inherit;
+}
+
+#navigation {
+	display: flex;
+}
+
+#navigation button {
+	width: 25%;
 	font-size: 2.5vmax;
 }
 
-#filters {
-	position: sticky;
-	top: 0;
+#home {
+	flex-grow: 1;
 }
 
 #categories {

@@ -12,35 +12,45 @@ session_start();
 		<link rel="stylesheet" href="browse.css">
 	</head>
 	<body>
-		<button id="home">
-			<i class="fa-solid fa-home"></i>
-		</button>
-		<div id="filters">
-			<div id="categories">
-				<button class="category-button">
-					<i class="fas fa-grip-horizontal"></i>
-					<span>All</span>
+		<div id="header">
+			<div id="navigation">
+				<button id="back">
+					<i class="fa-solid fa-arrow-left"></i>
 				</button>
-				<button class="category-button" data-category="movie">
-					<i class="fas fa-film"></i>
-					<span>Movies</span>
+				<button id="home">
+					<i class="fa-solid fa-home"></i>
 				</button>
-				<button class="category-button" data-category="tv">
-					<i class="fas fa-tv"></i>
-					<span>TV</span>
-				</button>
-				<button class="category-button" data-category="music">
-					<i class="fas fa-music"></i>
-					<span>Music</span>
+				<button id="forward">
+					<i class="fa-solid fa-arrow-right"></i>
 				</button>
 			</div>
-			<div id="search">
-				<select id="genre">
-					<option value="">All genres</option>
-				</select>
-				<input type="text" id="query" placeholder="Enter search terms...">
-				<button id="clear-search"><i class="fa-solid fa-xmark"></i></button>
-				<button id="search-button"><i class="fas fa-search"></i> Search</button>
+			<div id="filters">
+				<div id="categories">
+					<button class="category-button">
+						<i class="fas fa-grip-horizontal"></i>
+						<span>All</span>
+					</button>
+					<button class="category-button" data-category="movie">
+						<i class="fas fa-film"></i>
+						<span>Movies</span>
+					</button>
+					<button class="category-button" data-category="tv">
+						<i class="fas fa-tv"></i>
+						<span>TV</span>
+					</button>
+					<button class="category-button" data-category="music">
+						<i class="fas fa-music"></i>
+						<span>Music</span>
+					</button>
+				</div>
+				<div id="search">
+					<select id="genre">
+						<option value="">All genres</option>
+					</select>
+					<input type="text" id="query" placeholder="Enter search terms...">
+					<button id="clear-search"><i class="fa-solid fa-xmark"></i></button>
+					<button id="search-button"><i class="fas fa-search"></i> Search</button>
+				</div>
 			</div>
 		</div>
 		<div id="catalog"></div>

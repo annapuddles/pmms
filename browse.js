@@ -25,8 +25,19 @@ window.addEventListener('load', function() {
 	let customUrlInput = document.getElementById('custom-url');
 	let createCustomRoomButton = document.getElementById('create-custom-room');
 
+	let backButton = document.getElementById('back');
+	let forwardButton = document.getElementById('forward');
+
 	homeButton.addEventListener('click', function() {
 		window.location = '.';
+	});
+
+	backButton.addEventListener('click', function() {
+		history.back();
+	});
+
+	forwardButton.addEventListener('click', function() {
+		history.forward();
 	});
 
 	document.querySelectorAll('.category-button').forEach(button => {

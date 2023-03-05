@@ -5,17 +5,8 @@ html, body {
 	overflow: hidden;
 }
 
-input, button {
+button {
 	font-size: 7vmax;
-}
-
-hr {
-	margin-bottom: 2vh;
-	margin-top: 2vh;
-}
-
-form {
-	margin: 0;
 }
 
 #main {
@@ -41,6 +32,6 @@ form {
 }
 
 #catalog {
-	margin-top: 1vh;
+	margin-top: 3vh;
 	width: 100%;
 }

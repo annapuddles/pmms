@@ -446,7 +446,7 @@ window.addEventListener('load', () => {
 	});
 
 	exitButton.addEventListener('click', function() {
-		window.location = 'browse.php';
+		history.back();
 	});
 
 	urlField.addEventListener('keyup', function(e) {
