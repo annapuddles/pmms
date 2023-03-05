@@ -14,18 +14,15 @@ session_start();
 	<body>
 		<div id="header">
 			<div id="navigation">
-				<button id="back">
-					<i class="fa-solid fa-arrow-left"></i>
-				</button>
 				<button id="home">
 					<i class="fa-solid fa-home"></i>
-				</button>
-				<button id="forward">
-					<i class="fa-solid fa-arrow-right"></i>
 				</button>
 			</div>
 			<div id="filters">
 				<div id="categories">
+					<button id="back">
+						<i class="fa-solid fa-caret-left"></i>
+					</button>
 					<button class="category-button">
 						<i class="fas fa-grip-horizontal"></i>
 						<span>All</span>
@@ -41,6 +38,9 @@ session_start();
 					<button class="category-button" data-category="music">
 						<i class="fas fa-music"></i>
 						<span>Music</span>
+					</button>
+					<button id="forward">
+						<i class="fa-solid fa-caret-right"></i>
 					</button>
 				</div>
 				<div id="search">

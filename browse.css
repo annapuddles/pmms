@@ -28,12 +28,8 @@ select {
 }
 
 #navigation button {
-	width: 25%;
-	font-size: 2.5vmax;
-}
-
-#home {
 	flex-grow: 1;
+	font-size: 2.5vmax;
 }
 
 #categories {
