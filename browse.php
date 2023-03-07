@@ -64,5 +64,11 @@ session_start();
 				<i class="fas fa-circle-right"></i>
 			</button>
 		</div>
+		<div id="notification-popup" style="display: none">
+			<div id="notification-text"></div>
+			<button id="close-notification">
+				<i class="fa-solid fa-xmark"></i>
+			</button>
+		</div>
 	</body>
 </html>

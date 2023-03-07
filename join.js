@@ -492,7 +492,18 @@ window.addEventListener('load', () => {
 
 	addMediaButton.addEventListener('click', function() {
 		let iframe = document.createElement('iframe');
+
+		iframe.addEventListener('load', function() {
+			iframe.contentWindow.history.pushState = new Proxy(iframe.contentWindow.history.pushState, {
+				  apply: () => {},
+			});
+			iframe.contentWindow.history.replaceState = new Proxy(iframe.contentWindow.history.replaceState, {
+				  apply: () => {},
+			});
+		});
+
 		iframe.src = `browse.php?room=${roomKey}`;
+
 		catalogContainer.appendChild(iframe);
 		catalogViewer.style.display = null;
 	});

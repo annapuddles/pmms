@@ -25,15 +25,33 @@ window.addEventListener('load', function() {
 	let customUrlInput = document.getElementById('custom-url');
 	let createCustomRoomButton = document.getElementById('create-custom-room');
 
+	let navigation = document.getElementById('navigation');
 	let backButton = document.getElementById('back');
 	let forwardButton = document.getElementById('forward');
+
+	let notificationPopup = document.getElementById('notification-popup');
+	let notificationText = document.getElementById('notification-text');
+	let closeNotificationButton = document.getElementById('close-notification');
+
+	function notify(text) {
+		notificationText.innerHTML = text;
+		catalogDiv.className = 'disabled';
+		notificationPopup.style.display = null;
+	}
+
+	closeNotificationButton.addEventListener('click', () => {
+		notificationPopup.style.display = 'none';
+		catalogDiv.className = '';
+	});
 
 	if (roomKey == null) {
 		homeButton.addEventListener('click', function() {
 			window.location = '.';
 		});
 	} else {
-		document.getElementById('navigation').style.display = 'none';
+		navigation.style.display = 'none';
+		backButton.style.display = 'none';
+		forwardButton.style.display = 'none';
 	}
 
 	backButton.addEventListener('click', function() {
@@ -156,7 +174,7 @@ window.addEventListener('load', function() {
 						window.location = `create.php?url=${encodedUrl}`;
 					}
 				} else {
-					alert('URL not allowed');
+					notify('URL not allowed');
 				}
 			});
 		} else {
@@ -171,9 +189,9 @@ window.addEventListener('load', function() {
 
 			fetch(enqueueUrl).then(resp => {
 				if (resp.ok) {
-					alert('Media added to queue');
+					notify('Media added to queue');
 				} else {
-					alert('URL not allowed');
+					notify('URL not allowed');
 				}
 			});
 		}
