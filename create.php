@@ -19,6 +19,11 @@ $room = create_room($conn, $url, $title, $locked);
 
 $conn->close();
 
-header("Status: 302 Found");
-header("Location: join.php?room=" . $room);
+http_response_code(302);
+
+if ($room == null) {
+	header("Location: browse.php");
+} else {
+	header("Location: join.php?room=" . $room);
+}
 ?>

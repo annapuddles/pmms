@@ -60,9 +60,9 @@ session_start();
 		<div id="queue" class="pop-up-menu">
 			<div id="queue-title"><i class="fas fa-list"></i> Queue</div>
 			<div id="current-video"><i class="fas fa-play"></i> <span id="current-video-title"></span></div>
-			<div id="add-media">
-				<button id="catalog"><i class="fas fa-grip-horizontal"></i></button><input id="url" placeholder="Enter media URL..."><button id="queue-video"><i class="fas fa-plus"></i></button>
-			</div>
+			<button id="add-media">
+				<i class="fas fa-plus"></i>
+			</button>
 			<div id="queue-list"></div>
 			<div id="queue-controls">
 				<button id="loop" style="color: grey;">
@@ -77,6 +77,12 @@ session_start();
 				<button id="clear-queue">
 					<i class="fas fa-trash"></i>
 				</button>
+			</div>
+			<div id="catalog-viewer" style="display: none">
+				<button id="close-catalog">
+					<i class="fa-solid fa-xmark"></i>
+				</button>
+				<div id="catalog-container"></div>
 			</div>
 		</div>
 		<div id="settings" class="pop-up-menu">

@@ -8,6 +8,7 @@ session_start();
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width">
 		<title>pmms - Browsing the catalog</title>
+		<script>const allowCustomUrls = <?php echo $Config['general']['allow_custom_urls'] ? 'true' : 'false'; ?>;</script>
 		<script src="browse.js"></script>
 		<link rel="stylesheet" href="browse.css">
 	</head>

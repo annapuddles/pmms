@@ -9,10 +9,14 @@ $title = isset($_GET["title"]) ? $_GET["title"] : null;
 
 $conn = create_db_connection();
 
-if (can_control_room($conn, session_id(), $room)) {
-	$room_id = get_room_id($conn, $room);
+if (is_url_allowed($conn, $url)) {
+	if (can_control_room($conn, session_id(), $room)) {
+		$room_id = get_room_id($conn, $room);
 
-	enqueue_video($conn, $room_id, $url, $title);
+		enqueue_video($conn, $room_id, $url, $title);
+	}
+} else {
+	http_response_code(400);
 }
 
 $conn->close();

@@ -19,10 +19,51 @@ function prune_rooms($conn) {
 	$stmt->close();
 }
 
+function is_url_in_catalog($conn, $url) {
+	$stmt = $conn->prepare("SELECT id FROM catalog WHERE url = ?");
+	$stmt->bind_param("s", $url);
+	$stmt->bind_result($id);
+	$stmt->execute();
+	$stmt->fetch();
+	$stmt->close();
+
+	return $id != null || preg_match("/^series=[0-9]+$/", $url);
+}
+
+function is_url_allowed($conn, $url) {
+	global $Config;
+
+	if ($Config["general"]["allow_custom_urls"]) {
+		if (is_url_in_catalog($conn, $url)) {
+			return true;
+		}
+	} else {
+		if (!is_url_in_catalog($conn, $url)) {
+			return false;
+		}
+	}
+
+	if (isset($Config["general"]["allowed_url_patterns"]) && gettype($Config["general"]["allowed_url_patterns"]) == "array") {
+		foreach ($Config["general"]["allowed_url_patterns"] as $index => $pattern) {
+			if (preg_match($pattern, $url)) {
+				error_log($pattern);
+				return true;
+			}
+		}
+		return false;
+	} else {
+		return true;
+	}
+}
+
 function create_room($conn, $url, $title = null, $locked = null, $owner = null) {
 	global $Config;
 
 	prune_rooms($conn);
+
+	if (!is_url_allowed($conn, $url)) {
+		return null;
+	}
 
 	$stmt = $conn->prepare("SELECT UUID()");
 	$stmt->bind_result($room);

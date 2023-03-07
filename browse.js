@@ -28,9 +28,13 @@ window.addEventListener('load', function() {
 	let backButton = document.getElementById('back');
 	let forwardButton = document.getElementById('forward');
 
-	homeButton.addEventListener('click', function() {
-		window.location = '.';
-	});
+	if (roomKey == null) {
+		homeButton.addEventListener('click', function() {
+			window.location = '.';
+		});
+	} else {
+		document.getElementById('navigation').style.display = 'none';
+	}
 
 	backButton.addEventListener('click', function() {
 		history.back();
@@ -139,18 +143,61 @@ window.addEventListener('load', function() {
 		clearSearchButton.style.display = 'none';
 	}
 
-	closeCustomPopupButton.addEventListener('click', function() {
+	function selectMedia(url, title) {
+		let encodedUrl = encodeURIComponent(url);
+
+		if (roomKey == null) {
+			fetch(`check-url.php?url=${encodedUrl}`).then(resp => resp.json()).then(is_allowed => {
+				if (is_allowed) {
+					if (title) {
+						let encodedTitle = encodeURIComponent(title);
+						window.location = `create.php?url=${encodedUrl}&title=${encodedTitle}`;
+					} else {
+						window.location = `create.php?url=${encodedUrl}`;
+					}
+				} else {
+					alert('URL not allowed');
+				}
+			});
+		} else {
+			let enqueueUrl;
+
+			if (title) {
+				let encodedTitle = encodeURIComponent(title);
+				enqueueUrl = `enqueue.php?room=${roomKey}&url=${encodedUrl}&title=${encodedTitle}`;
+			} else {
+				enqueueUrl = `enqueue.php?room=${roomKey}&url=${encodedUrl}`;
+			}
+
+			fetch(enqueueUrl).then(resp => {
+				if (resp.ok) {
+					alert('Media added to queue');
+				} else {
+					alert('URL not allowed');
+				}
+			});
+		}
+	}
+
+	function closeCustomPopup() {
 		customPopup.style.display = 'none';
+		customUrlInput.value = '';
 		catalogDiv.className = '';
+	}
+
+	closeCustomPopupButton.addEventListener('click', function() {
+		closeCustomPopup();
 	});
 
 	createCustomRoomButton.addEventListener('click', function() {
-		window.location = `create.php?url=${encodeURIComponent(customUrlInput.value)}`;
+		selectMedia(customUrlInput.value);
+		closeCustomPopup();
 	});
 
 	customUrlInput.addEventListener('keyup', function(e) {
 		if (e.code == 'Enter' && this.value != '') {
-			window.location = `create.php?url=${encodeURIComponent(this.value)}`;
+			selectMedia(this.value);
+			closeCustomPopup();
 		}
 	});
 
@@ -163,16 +210,7 @@ window.addEventListener('load', function() {
 				url.searchParams.delete('query');
 				window.location = url.toString();
 			} else {
-				let url = encodeURIComponent(entry.url);
-				let title = encodeURIComponent(entry.title);
-
-				if (roomKey == null) {
-					window.location = `create.php?url=${url}&title=${title}`;
-				} else {
-					fetch(`enqueue.php?room=${roomKey}&url=${url}&title=${title}`).then(resp => {
-						window.location = `join.php?room=${roomKey}`;
-					});
-				}
+				selectMedia(entry.url, entry.title);
 			}
 		});
 	}
@@ -180,7 +218,7 @@ window.addEventListener('load', function() {
 	let catalogUrl = 'catalog.php?' + url.searchParams.toString();
 
 	fetch(catalogUrl).then(resp => resp.json()).then(data => {
-		if (series == null && category == null && genre == null && searchQuery.value == '') {
+		if (allowCustomUrls && series == null && category == null && genre == null && searchQuery.value == '') {
 			let customButton = document.createElement('div');
 			customButton.className = 'catalog-entry';
 			customButton.innerHTML = '<div class="cover"><button><i class="fas fa-link"></i></button></div><div class="title">Custom URL</div>';

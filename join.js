@@ -44,8 +44,6 @@ window.addEventListener('load', () => {
 	let videoContainer = document.getElementById('video-container');
 	let playButton = document.getElementById('play');
 	let progressBar = document.getElementById('progress');
-	let queueVideoButton = document.getElementById('queue-video');
-	let urlField = document.getElementById('url');
 	let currentTimecode = document.getElementById('current-timecode');
 	let durationTimecode = document.getElementById('duration-timecode');
 	let exitButton = document.getElementById('exit');
@@ -56,7 +54,7 @@ window.addEventListener('load', () => {
 	let volumeSlider = document.getElementById('volume');
 	let volumeStatus = document.getElementById('volume-status');
 	let lockButton = document.getElementById('lock');
-	let catalogButton = document.getElementById('catalog');
+	let addMediaButton = document.getElementById('add-media');
 	let queueButton = document.getElementById('queue-button');
 	let roomSettingsButton = document.getElementById('room-settings-button');
 	let queueContainer = document.getElementById('queue-container');
@@ -70,6 +68,9 @@ window.addEventListener('load', () => {
 	let shuffleButton = document.getElementById('shuffle');
 	let connectionLostNotice = document.getElementById('connection-lost-notice');
 	let captionsSelect = document.getElementById('captions');
+	let catalogViewer = document.getElementById('catalog-viewer');
+	let catalogContainer = document.getElementById('catalog-container');
+	let closeCatalogButton = document.getElementById('close-catalog');
 
 	playButton.setPauseIcon = function() {
 		this.innerHTML = '<i class="fas fa-pause"></i>';
@@ -133,8 +134,6 @@ window.addEventListener('load', () => {
 		lockButton.disabled = disabled;
 		playButton.disabled = disabled;
 		progressBar.disabled = disabled;
-		queueVideoButton.disabled = disabled;
-		urlField.disabled = disabled;
 		nextButton.disabled = disabled;
 		loopButton.disabled = disabled;
 		catalogButton.disabled = disabled;
@@ -142,12 +141,6 @@ window.addEventListener('load', () => {
 		shuffleButton.disabled = disabled;
 		seekForwardButton.disabled = disabled;
 		seekBackwardButton.disabled = disabled;
-	}
-
-	function enqueueVideo() {
-		let url = urlField.value;
-		urlField.value = '';
-		fetch(`enqueue.php?room=${roomKey}&url=${encodeURIComponent(url)}`);
 	}
 
 	setInterval(() => {
@@ -437,10 +430,6 @@ window.addEventListener('load', () => {
 		}
 	});
 
-	queueVideoButton.addEventListener('click', function() {
-		enqueueVideo();
-	});
-
 	progressBar.addEventListener('input', function() {
 		fetch(`seek.php?room=${roomKey}&time=${this.value}`);
 	});
@@ -450,12 +439,6 @@ window.addEventListener('load', () => {
 			history.back();
 		} else {
 			window.location = 'browse.php';
-		}
-	});
-
-	urlField.addEventListener('keyup', function(e) {
-		if (e.code == 'Enter') {
-			enqueueVideo();
 		}
 	});
 
@@ -507,8 +490,16 @@ window.addEventListener('load', () => {
 		fetch(`lock.php?room=${roomKey}`);
 	});
 
-	catalogButton.addEventListener('click', function() {
-		window.location = `browse.php?room=${roomKey}`;
+	addMediaButton.addEventListener('click', function() {
+		let iframe = document.createElement('iframe');
+		iframe.src = `browse.php?room=${roomKey}`;
+		catalogContainer.appendChild(iframe);
+		catalogViewer.style.display = null;
+	});
+
+	closeCatalogButton.addEventListener('click', function() {
+		catalogViewer.style.display = 'none';
+		catalogContainer.innerHTML = '';
 	});
 
 	document.querySelectorAll('.pop-up-menu-button').forEach(button => button.addEventListener('click', function() {
