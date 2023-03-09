@@ -71,6 +71,7 @@ window.addEventListener('load', () => {
 	let catalogViewer = document.getElementById('catalog-viewer');
 	let catalogContainer = document.getElementById('catalog-container');
 	let closeCatalogButton = document.getElementById('close-catalog');
+	let reloadButton = document.getElementById('reload');
 
 	playButton.setPauseIcon = function() {
 		this.innerHTML = '<i class="fas fa-pause"></i>';
@@ -568,5 +569,12 @@ window.addEventListener('load', () => {
 
 	captionsSelect.addEventListener('input', function() {
 		setCaptions(this.value);
+	});
+
+	reloadButton.addEventListener('click', function() {
+		if (media != null) {
+			media.remove();
+			media = null;
+		}
 	});
 });

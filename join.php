@@ -89,6 +89,11 @@ session_start();
 			<div class="settings-group">
 				<div class="settings-group-title"><i class="fas fa-user-cog"></i> User settings</div>
 				<div class="settings-group-main">
+					<div class="setting no-label">
+						<button id="reload" class="setting-input">
+							<i class="fas fa-arrows-rotate"></i>
+						</button>
+					</div>
 					<div class="setting">
 						<div class="setting-label"><i class="fas fa-server"></i> / <i class="fas fa-language"></i></div>
 						<select id="source" class="setting-input">
