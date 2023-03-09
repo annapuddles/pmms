@@ -1,12 +1,13 @@
 const syncInterval = 1000;
 const queueUpdateInterval = 2000;
 const maxRoomSyncAttempts = 3;
-const mediaReadyTimeout = 5000;
+const baseMediaReadyTimeout = 5000;
 
 let syncTolerance = 2;
 let media = null;
 let currentUrl = null;
 let roomSyncAttempts = maxRoomSyncAttempts;
+let mediaReadyTimeout = baseMediaReadyTimeout;
 
 function timeToString(time) {
 	if (time == null || time <= 0) {
@@ -243,10 +244,13 @@ window.addEventListener('load', () => {
 							media.remove();
 							media = null;
 						}
+
+						mediaReadyTimeout += baseMediaReadyTimeout;
 					}, mediaReadyTimeout);
 
 					media.addEventListener('canplay', () => {
 						clearTimeout(failedToLoad);
+						mediaReadyTimeout = baseMediaReadyTimeout;
 
 						media.style.display = null;
 
