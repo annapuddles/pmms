@@ -174,7 +174,7 @@ window.addEventListener('load', function() {
 						window.location = `create.php?url=${encodedUrl}`;
 					}
 				} else {
-					notify('URL not allowed');
+					notify('URL "' + url + '" not allowed');
 				}
 			});
 		} else {
@@ -189,9 +189,13 @@ window.addEventListener('load', function() {
 
 			fetch(enqueueUrl).then(resp => {
 				if (resp.ok) {
-					notify('Media added to queue');
+					if (title) {
+						notify('"' + title + '" added to queue');
+					} else {
+						notify('URL "' + url + '" added to queue');
+					}
 				} else {
-					notify('URL not allowed');
+					notify('URL "' + url + '" not allowed');
 				}
 			});
 		}
@@ -219,17 +223,21 @@ window.addEventListener('load', function() {
 		}
 	});
 
+	function selectEntry(entry) {
+		if (entry.url == null) {
+			url.searchParams.set('series', entry.id);
+			url.searchParams.delete('category');
+			url.searchParams.delete('genre');
+			url.searchParams.delete('query');
+			window.location = url.toString();
+		} else {
+			selectMedia(entry.url, entry.title);
+		}
+	}
+
 	function addCatalogEntryClickListener(div, entry) {
 		div.addEventListener('click', () => {
-			if (entry.url == null) {
-				url.searchParams.set('series', entry.id);
-				url.searchParams.delete('category');
-				url.searchParams.delete('genre');
-				url.searchParams.delete('query');
-				window.location = url.toString();
-			} else {
-				selectMedia(entry.url, entry.title);
-			}
+			selectEntry(entry);
 		});
 	}
 
@@ -271,7 +279,9 @@ window.addEventListener('load', function() {
 				let randomButton = document.createElement('div');
 				randomButton.className = 'catalog-entry';
 				randomButton.innerHTML = '<div class="cover"><button><i class="fas fa-dice"></i></button></div><div class="title">Random</div>';
-				addCatalogEntryClickListener(randomButton, data[Math.floor(Math.random() * data.length)]);
+				randomButton.addEventListener('click', () => {
+					selectEntry(data[Math.floor(Math.random() * data.length)]);
+				});
 				catalogDiv.appendChild(randomButton);
 			}
 
