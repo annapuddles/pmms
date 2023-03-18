@@ -190,7 +190,7 @@ window.addEventListener('load', function() {
 			fetch(enqueueUrl).then(resp => {
 				if (resp.ok) {
 					if (title) {
-						notify('"' + title + '" added to queue');
+						notify(title + ' added to queue');
 					} else {
 						notify('URL "' + url + '" added to queue');
 					}
@@ -270,7 +270,7 @@ window.addEventListener('load', function() {
 
 				playAllDiv.innerHTML = '<div class="cover"><button><i class="fas fa-play"></i></button></div><div class="title">Play All</div>';
 
-				addCatalogEntryClickListener(playAllDiv, {url: "series=" + series}, roomKey);
+				addCatalogEntryClickListener(playAllDiv, {url: "series=" + series, title: "All videos"}, roomKey);
 
 				catalogDiv.appendChild(playAllDiv);
 			}
