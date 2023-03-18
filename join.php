@@ -60,11 +60,11 @@ session_start();
 		<div id="queue" class="pop-up-menu">
 			<div id="queue-title"><i class="fas fa-list"></i> Queue</div>
 			<div id="current-video"><i class="fas fa-play"></i> <span id="current-video-title"></span></div>
-			<button id="add-media">
-				<i class="fas fa-plus"></i>
-			</button>
 			<div id="queue-list"></div>
 			<div id="queue-controls">
+				<button id="add-media">
+					<i class="fas fa-plus"></i>
+				</button>
 				<button id="loop" style="color: grey;">
 					<i class="fas fa-repeat"></i>
 				</button>
