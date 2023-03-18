@@ -150,7 +150,6 @@ button.active {
 	display: grid;
 	grid-template-columns: max-content auto;
 	grid-gap: 1vh 0vw;
-	flex-grow: 1;
 	padding: 1vh 0;
 }
 
@@ -162,10 +161,6 @@ button.active {
 	font-size: 2vmax;
 	padding-right: 0.5em;
 	text-align: center;
-}
-
-.setting-input {
-	flex-grow: 1;
 }
 
 .setting.no-label .setting-input {
