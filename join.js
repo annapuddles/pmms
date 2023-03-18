@@ -73,6 +73,19 @@ window.addEventListener('load', () => {
 	let catalogContainer = document.getElementById('catalog-container');
 	let closeCatalogButton = document.getElementById('close-catalog');
 	let reloadButton = document.getElementById('reload');
+	let roomUrlInput = document.getElementById('room-url');
+	let copyRoomLinkButton = document.getElementById('copy-room-link');
+
+	roomUrlInput.value = window.location;
+
+	roomUrlInput.addEventListener('click', function() {
+		this.setSelectionRange(0, this.value.length);
+		navigator.clipboard.writeText(this.value);
+	});
+
+	copyRoomLinkButton.addEventListener('click', () => {
+		navigator.clipboard.writeText(roomUrlInput.value);
+	});
 
 	playButton.setPauseIcon = function() {
 		this.innerHTML = '<i class="fas fa-pause"></i>';

@@ -116,6 +116,15 @@ session_start();
 							<i class="fas fa-lock-open"></i>
 						</button>
 					</div>
+					<div class="setting">
+						<div class="setting-label">
+							<button id="copy-room-link">
+								<i class="fa-solid fa-copy"></i>
+								<span>Copy</span>
+							</button>
+						</div>
+						<input id="room-url" type="text" class="setting-input" readonly>
+					</div>
 				</div>
 			</div>
 		</div>
