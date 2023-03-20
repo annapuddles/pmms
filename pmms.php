@@ -112,7 +112,7 @@ function get_series_id($url, &$id) {
 }
 
 function get_youtube_playlist_id($url, &$id) {
-	if (preg_match("/^(?:(?:https?:)?\/\/)?(?:(?:www|m)\.)?(?:youtube\.com|youtu.be)\/playlist\?list=(PL[a-z0-9_\-]+)$/i", $url, $match)) {
+	if (preg_match("/^(?:(?:https?:)?\/\/)?(?:(?:www|m)\.)?(?:youtube\.com|youtu.be)\/playlist\?list=([a-z0-9_\-]+)$/i", $url, $match)) {
 		$id = $match[1];
 		return true;
 	} else {
