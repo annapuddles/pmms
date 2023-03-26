@@ -255,6 +255,10 @@ button.active {
 		position: relative;
 		height: 50vh;
 	}
+
+	#catalog-viewer {
+		position: fixed;
+	}
 }
 
 @media (hover: none) and (orientation: landscape) {
