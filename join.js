@@ -8,6 +8,7 @@ let media = null;
 let currentUrl = null;
 let roomSyncAttempts = maxRoomSyncAttempts;
 let mediaReadyTimeout = baseMediaReadyTimeout;
+let canControlRoom = false;
 
 function timeToString(time) {
 	if (time == null || time <= 0) {
@@ -189,6 +190,8 @@ window.addEventListener('load', () => {
 			}
 
 			if (resp.locked) {
+				canControlRoom = resp.is_owner;
+
 				if (lockButton.icon == "unlocked") {
 					lockButton.setLockedIcon();
 
@@ -199,6 +202,8 @@ window.addEventListener('load', () => {
 					}
 				}
 			} else {
+				canControlRoom = true;
+
 				if (lockButton.icon == "locked") {
 					lockButton.setUnlockedIcon();
 					disableControls(false);
@@ -431,22 +436,31 @@ window.addEventListener('load', () => {
 
 			resp.forEach(item => {
 				let queueItem = document.createElement('div');
-				queueItem.className = "queue-item";
+
+				if (canControlRoom) {
+					queueItem.className = 'queue-item';
+				} else {
+					queueItem.className = 'queue-item disabled';
+				}
 
 				let queueItemTitle = document.createElement('div');
 				queueItemTitle.className = 'queue-item-title';
 				queueItemTitle.innerHTML = item.title;
-				queueItemTitle.addEventListener('click', () => {
-					fetch(`dequeue.php?room=${roomKey}&id=${item.id}`);
-				});
+				if (canControlRoom) {
+					queueItemTitle.addEventListener('click', () => {
+						fetch(`dequeue.php?room=${roomKey}&id=${item.id}`);
+					});
+				}
 				queueItem.appendChild(queueItemTitle);
 
 				let queueItemDelete = document.createElement('div');
 				queueItemDelete.className = 'queue-item-delete';
 				queueItemDelete.innerHTML = '<i class="fa-solid fa-trash"></i>';
-				queueItemDelete.addEventListener('click', () => {
-					fetch(`delete-queue-item.php?id=${item.id}`);
-				});
+				if (canControlRoom) {
+					queueItemDelete.addEventListener('click', () => {
+						fetch(`delete-queue-item.php?id=${item.id}`);
+					});
+				}
 				queueItem.appendChild(queueItemDelete);
 
 				queueList.appendChild(queueItem);

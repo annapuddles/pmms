@@ -122,12 +122,28 @@ button.active {
 	padding: 0.5vh 0;
 }
 
+.queue-item.disabled {
+	cursor: inherit;
+}
+
 .queue-item-title:hover {
 	color: pink;
 }
 
+.queue-item.disabled > .queue-item-title:hover {
+	color: inherit;
+}
+
 .queue-item-delete:hover {
 	color: red;
+}
+
+.queue-item.disabled > .queue-item-delete {
+	opacity: 50%;
+}
+
+.queue-item.disabled > .queue-item-delete:hover {
+	color: inherit;
 }
 
 #queue-controls {
