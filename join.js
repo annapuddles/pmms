@@ -432,10 +432,23 @@ window.addEventListener('load', () => {
 			resp.forEach(item => {
 				let queueItem = document.createElement('div');
 				queueItem.className = "queue-item";
-				queueItem.innerHTML = item.title;
-				queueItem.addEventListener('click', () => {
+
+				let queueItemTitle = document.createElement('div');
+				queueItemTitle.className = 'queue-item-title';
+				queueItemTitle.innerHTML = item.title;
+				queueItemTitle.addEventListener('click', () => {
 					fetch(`dequeue.php?room=${roomKey}&id=${item.id}`);
 				});
+				queueItem.appendChild(queueItemTitle);
+
+				let queueItemDelete = document.createElement('div');
+				queueItemDelete.className = 'queue-item-delete';
+				queueItemDelete.innerHTML = '<i class="fa-solid fa-trash"></i>';
+				queueItemDelete.addEventListener('click', () => {
+					fetch(`delete-queue-item.php?id=${item.id}`);
+				});
+				queueItem.appendChild(queueItemDelete);
+
 				queueList.appendChild(queueItem);
 			});
 		});

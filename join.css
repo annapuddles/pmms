@@ -115,13 +115,19 @@ button.active {
 }
 
 .queue-item {
+	display: flex;
+	justify-content: space-between;
 	user-select: none;
 	cursor: pointer;
 	padding: 0.5vh 0;
 }
 
-.queue-item:hover {
+.queue-item-title:hover {
 	color: pink;
+}
+
+.queue-item-delete:hover {
+	color: red;
 }
 
 #queue-controls {
