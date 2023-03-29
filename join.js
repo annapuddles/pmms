@@ -39,6 +39,13 @@ function setCaptions(name) {
 	localStorage.captions = name;
 }
 
+function resetMedia() {
+	if (media != null) {
+		media.remove();
+		media = null;
+	}
+}
+
 window.addEventListener('load', () => {
 	let url = new URL(window.location);
 	let roomKey = url.searchParams.get("room");
@@ -203,10 +210,7 @@ window.addEventListener('load', () => {
 			if (media == null || currentUrl != resp.url) {
 				currentUrl = resp.url;
 
-				if (media != null) {
-					media.remove();
-					media = null;
-				}
+				resetMedia();
 
 				videoContainer.innerHTML = '';
 
@@ -253,10 +257,7 @@ window.addEventListener('load', () => {
 					media.isLive = () => false;
 
 					let failedToLoad = setTimeout(() => {
-						if (media) {
-							media.remove();
-							media = null;
-						}
+						resetMedia();
 
 						mediaReadyTimeout += baseMediaReadyTimeout;
 					}, mediaReadyTimeout);
@@ -589,9 +590,6 @@ window.addEventListener('load', () => {
 	});
 
 	reloadButton.addEventListener('click', function() {
-		if (media != null) {
-			media.remove();
-			media = null;
-		}
+		resetMedia();
 	});
 });
