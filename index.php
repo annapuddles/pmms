@@ -13,7 +13,9 @@ session_start();
 	<body>
 		<div id="main">
 			<div id="title">
-				<div>🐩</div>
+				<div>
+					<img id="logo" src="logo.svg">
+				</div>
 				<div>PMMS</div>
 				<div id="subtitle">Poodle's Multimedia System</div>
 				<button id="catalog">

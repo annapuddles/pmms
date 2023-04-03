@@ -17,6 +17,10 @@ button {
 	width: 95vw;
 }
 
+#logo {
+	width: 12vmax;
+}
+
 #title {
 	color: pink;
 	text-align: center;
