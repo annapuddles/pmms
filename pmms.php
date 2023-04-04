@@ -46,7 +46,6 @@ function is_url_allowed($conn, $url) {
 	if (isset($Config["general"]["allowed_url_patterns"]) && gettype($Config["general"]["allowed_url_patterns"]) == "array") {
 		foreach ($Config["general"]["allowed_url_patterns"] as $index => $pattern) {
 			if (preg_match($pattern, $url)) {
-				error_log($pattern);
 				return true;
 			}
 		}
