@@ -83,6 +83,7 @@ window.addEventListener('load', () => {
 	let reloadButton = document.getElementById('reload');
 	let roomUrlInput = document.getElementById('room-url');
 	let copyRoomLinkButton = document.getElementById('copy-room-link');
+	let syncToleranceSelect = document.getElementById('sync-tolerance');
 
 	roomUrlInput.value = window.location;
 
@@ -658,5 +659,11 @@ window.addEventListener('load', () => {
 
 	reloadButton.addEventListener('click', function() {
 		resetMedia();
+	});
+
+	syncToleranceSelect.value = syncTolerance;
+
+	syncToleranceSelect.addEventListener('input', function() {
+		syncTolerance = parseInt(this.value);
 	});
 });

@@ -89,13 +89,8 @@ session_start();
 			<div class="settings-group">
 				<div class="settings-group-title"><i class="fas fa-user-cog"></i> User settings</div>
 				<div class="settings-group-main">
-					<div class="setting no-label">
-						<button id="reload" class="setting-input">
-							<i class="fas fa-arrows-rotate"></i>
-						</button>
-					</div>
 					<div class="setting">
-						<div class="setting-label"><i class="fas fa-server"></i> / <i class="fas fa-language"></i></div>
+						<div class="setting-label"><i class="fas fa-server"></i></div>
 						<select id="source" class="setting-input">
 							<option>default</option>
 						</select>
@@ -105,6 +100,22 @@ session_start();
 						<select id="captions" class="setting-input">
 							<option>off</option>
 						</select>
+					</div>
+					<div class="setting">
+						<div class="setting-label"><i class="fa-solid fa-stopwatch"></i></div>
+						<select id="sync-tolerance" class="setting-input">
+							<option value="1">1 second</option>
+							<option value="2">2 seconds</option>
+							<option value="5">5 seconds</option>
+							<option value="10">10 seconds</option>
+							<option value="20">20 seconds</option>
+							<option value="30">30 seconds</option>
+						</select>
+					</div>
+					<div class="setting no-label">
+						<button id="reload" class="setting-input">
+							<i class="fas fa-arrows-rotate"></i>
+						</button>
 					</div>
 				</div>
 			</div>
