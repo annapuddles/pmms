@@ -388,4 +388,69 @@ function bump_room($conn, $room) {
 	$stmt->execute();
 	$stmt->close();
 }
+
+function reorder_queue($conn, $room, $queue_id, $direction) {
+	$room_id = get_room_id($conn, $room);
+
+	$stmt = $conn->prepare("SELECT id, url, title FROM queue WHERE room_id = ?");
+	$stmt->bind_param("i", $room_id);
+	$stmt->execute();
+
+	$result = $stmt->get_result();
+
+	$queue = [];
+
+	while ($row = $result->fetch_assoc()) {
+		$queue[] = [
+			"id" => $row["id"],
+			"url" => $row["url"],
+			"title" => $row["title"]
+		];
+	}
+
+	$stmt->close();
+
+	$queue_length = count($queue);
+
+	for ($target_index = 0; $target_index < $queue_length; ++$target_index) {
+		if ($queue[$target_index]["id"] == $queue_id) {
+			break;
+		}
+	}
+
+	if ($target_index == $queue_length) {
+		return;
+	}
+
+	$temp = $queue[$target_index];
+
+	if ($direction == "top") {
+		array_splice($queue, $target_index, 1);
+		array_unshift($queue, $temp);
+	} else {
+		if ($direction == "up") {
+			$destination_index = max(0, $target_index - 1);
+		} else if ($direction == "down") {
+			$destination_index = min($target_index + 1, $queue_length);
+		} else {
+			return;
+		}
+
+		if ($target_index == $destination_index) {
+			return;
+		}
+
+		$queue[$target_index] = $queue[$destination_index];
+		$queue[$destination_index] = $temp;
+	}
+
+	clear_queue($conn, $room);
+
+	foreach ($queue as $item) {
+		$stmt = $conn->prepare("INSERT INTO queue (room_id, url, title) VALUES (?, ?, ?)");
+		$stmt->bind_param("iss", $room_id, $item["url"], $item["title"]);
+		$stmt->execute();
+		$stmt->close();
+	}
+}
 ?>

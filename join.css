@@ -134,15 +134,44 @@ button.active {
 	color: inherit;
 }
 
+.queue-item-controls {
+	display: flex;
+	flex-flow: row;
+	align-items: center;
+}
+
+.queue-item-control-group, .queue-item-control {
+	padding-left: 0.2em;
+	padding-right: 0.2em;
+}
+
+.queue-item-control:hover {
+	color: pink;
+}
+
+.queue-item-up-down {
+	display: flex;
+	flex-flow: column;
+}
+
+.queue-item-up-down > * {
+	padding: 0;
+	font-size: 1vmax;
+}
+
+.queue-item-up-down > div:hover {
+	color: pink;
+}
+
 .queue-item-delete:hover {
 	color: red;
 }
 
-.queue-item.disabled > .queue-item-delete {
+.queue-item.disabled > .queue-item-control {
 	opacity: 50%;
 }
 
-.queue-item.disabled > .queue-item-delete:hover {
+.queue-item.disabled > .queue-item-control:hover {
 	color: inherit;
 }
 

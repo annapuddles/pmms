@@ -453,15 +453,55 @@ window.addEventListener('load', () => {
 				}
 				queueItem.appendChild(queueItemTitle);
 
+				let queueItemControls = document.createElement('div');
+				queueItemControls.className = 'queue-item-controls';
+
+				let queueItemUpDown = document.createElement('div');
+				queueItemUpDown.className = 'queue-item-control-group queue-item-up-down';
+
+				let queueItemUp = document.createElement('div');
+				queueItemUp.className = 'queue-item-up';
+				queueItemUp.innerHTML = '<i class="fa-solid fa-chevron-up"></i>';
+				if (canControlRoom) {
+					queueItemUp.addEventListener('click', () => {
+						fetch(`reorder.php?room=${roomKey}&id=${item.id}&direction=up`);
+					});
+				}
+				queueItemUpDown.appendChild(queueItemUp);
+
+				let queueItemDown = document.createElement('div');
+				queueItemDown.className = 'queue-item-down';
+				queueItemDown.innerHTML = '<i class="fa-solid fa-chevron-down"></i>';
+				if (canControlRoom) {
+					queueItemDown.addEventListener('click', () => {
+						fetch(`reorder.php?room=${roomKey}&id=${item.id}&direction=down`);
+					});
+				}
+				queueItemUpDown.appendChild(queueItemDown);
+
+				queueItemControls.appendChild(queueItemUpDown);
+
+				let queueItemTop = document.createElement('div');
+				queueItemTop.className = 'queue-item-control queue-item-top';
+				queueItemTop.innerHTML = '<i class="fa-solid fa-arrow-up-wide-short"></i>';
+				if (canControlRoom) {
+					queueItemTop.addEventListener('click', () => {
+						fetch(`reorder.php?room=${roomKey}&id=${item.id}&direction=top`);
+					});
+				}
+				queueItemControls.appendChild(queueItemTop);
+
 				let queueItemDelete = document.createElement('div');
-				queueItemDelete.className = 'queue-item-delete';
+				queueItemDelete.className = 'queue-item-control queue-item-delete';
 				queueItemDelete.innerHTML = '<i class="fa-solid fa-trash"></i>';
 				if (canControlRoom) {
 					queueItemDelete.addEventListener('click', () => {
 						fetch(`delete-queue-item.php?id=${item.id}`);
 					});
 				}
-				queueItem.appendChild(queueItemDelete);
+				queueItemControls.appendChild(queueItemDelete);
+
+				queueItem.appendChild(queueItemControls);
 
 				queueList.appendChild(queueItem);
 			});

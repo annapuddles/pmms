@@ -75,7 +75,7 @@ session_start();
 					<i class="fas fa-step-forward"></i>
 				</button>
 				<button id="clear-queue">
-					<i class="fa-solid fa-eraser"></i>
+					<i class="fa-solid fa-trash"></i>
 				</button>
 			</div>
 			<div id="catalog-viewer" style="display: none">
