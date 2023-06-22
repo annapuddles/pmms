@@ -9,6 +9,7 @@ let currentUrl = null;
 let roomSyncAttempts = maxRoomSyncAttempts;
 let mediaReadyTimeout = baseMediaReadyTimeout;
 let canControlRoom = false;
+let waitingTimeout = null;
 
 function timeToString(time) {
 	if (time == null || time <= 0) {
@@ -286,6 +287,25 @@ window.addEventListener('load', () => {
 						media.isLive = () =>
 							media.duration == 0 || media.duration == Infinity ||
 							(media.youTubeApi && media.youTubeApi.getVideoData().isLive);
+
+						media.addEventListener('waiting', () => {
+							if (waitingTimeout) {
+								clearTimeout(waitingTimeout);
+								waitingTimeout = null;
+							}
+
+							waitingTimeout = setTimeout(() => {
+								console.log('Video buffering for too long, attempting a reset...');
+								resetMedia();
+								mediaReadyTimeout += baseMediaReadyTimeout;
+							}, mediaReadyTimeout);
+						});
+
+						media.addEventListener('playing', () => {
+							clearTimeout(waitingTimeout);
+							waitingTimeout = null;
+							mediaReadyTimeout = baseMediaReadyTimeout;
+						});
 
 						media.play();
 
