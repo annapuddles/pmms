@@ -34,7 +34,7 @@ CREATE TABLE catalog (
 	url VARCHAR(1024),
 	title VARCHAR(255) NOT NULL,
 	sort_title VARCHAR(255) NOT NULL,
-	cover VARCHAR(255) NOT NULL,
+	cover VARCHAR(255),
 	category ENUM ('movie', 'tv', 'music') NOT NULL,
 	series INTEGER REFERENCES catalog (id),
 	keywords VARCHAR(255) NOT NULL DEFAULT '',

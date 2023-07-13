@@ -295,7 +295,7 @@ window.addEventListener('load', function() {
 				let coverDiv = document.createElement('div');
 				coverDiv.className = 'cover';
 				let coverImg = document.createElement('img');
-				coverImg.src = entry.cover;
+				coverImg.src = entry.cover ? entry.cover : 'no-cover.svg';
 				coverDiv.appendChild(coverImg);
 				div.appendChild(coverDiv);
 
