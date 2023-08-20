@@ -2,11 +2,17 @@
 include "pmms.php";
 
 $room = $_GET["room"];
+$limit = get_param("limit");
 
 $conn = create_db_connection();
 
-$stmt = $conn->prepare("SELECT queue.id AS id, queue.url AS url, queue.title AS title FROM room, queue WHERE room.id = queue.room_id AND room.room_key = ?");
-$stmt->bind_param("s", $room);
+if (isset($limit)) {
+	$stmt = $conn->prepare("SELECT queue.id AS id, queue.url AS url, queue.title AS title FROM room, queue WHERE room.id = queue.room_id AND room.room_key = ? LIMIT ?");
+	$stmt->bind_param("si", $room, $limit);
+} else {
+	$stmt = $conn->prepare("SELECT queue.id AS id, queue.url AS url, queue.title AS title FROM room, queue WHERE room.id = queue.room_id AND room.room_key = ?");
+	$stmt->bind_param("s", $room);
+}
 $stmt->execute();
 
 $result = $stmt->get_result();
