@@ -52,6 +52,7 @@ window.addEventListener('load', () => {
 	let url = new URL(window.location);
 	let roomKey = url.searchParams.get("room");
 	let noEscape = url.searchParams.get("noescape");
+	let noQueue = url.searchParams.get("noqueue");
 	let videoContainer = document.getElementById('video-container');
 	let playButton = document.getElementById('play');
 	let progressBar = document.getElementById('progress');
@@ -86,6 +87,10 @@ window.addEventListener('load', () => {
 	let roomUrlInput = document.getElementById('room-url');
 	let copyRoomLinkButton = document.getElementById('copy-room-link');
 	let syncToleranceSelect = document.getElementById('sync-tolerance');
+
+	if (noQueue) {
+		queueButton.disabled = true;
+	}
 
 	roomUrlInput.value = window.location;
 
