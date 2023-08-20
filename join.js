@@ -51,6 +51,7 @@ function resetMedia() {
 window.addEventListener('load', () => {
 	let url = new URL(window.location);
 	let roomKey = url.searchParams.get("room");
+	let noEscape = url.searchParams.get("noescape");
 	let videoContainer = document.getElementById('video-container');
 	let playButton = document.getElementById('play');
 	let progressBar = document.getElementById('progress');
@@ -541,13 +542,17 @@ window.addEventListener('load', () => {
 		fetch(`seek.php?room=${roomKey}&time=${this.value}`);
 	});
 
-	exitButton.addEventListener('click', function() {
-		if (history.length > 1) {
-			history.back();
-		} else {
-			window.location = 'browse.php';
-		}
-	});
+	if (noEscape) {
+		exitButton.disabled = true;
+	} else {
+		exitButton.addEventListener('click', function() {
+			if (history.length > 1) {
+				history.back();
+			} else {
+				window.location = 'browse.php';
+			}
+		});
+	}
 
 	nextButton.addEventListener('click', function() {
 		if (this.queueId != null) {
