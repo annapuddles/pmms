@@ -53,6 +53,7 @@ window.addEventListener('load', () => {
 	let roomKey = url.searchParams.get("room");
 	let noEscape = url.searchParams.get("noescape");
 	let noQueue = url.searchParams.get("noqueue");
+	let noFullscreen = url.searchParams.get("nofullscreen");
 	let videoContainer = document.getElementById('video-container');
 	let playButton = document.getElementById('play');
 	let progressBar = document.getElementById('progress');
@@ -569,13 +570,17 @@ window.addEventListener('load', () => {
 		fetch(`loop.php?room=${roomKey}&loop=${(this.mode + 1) % 3}&time=${media.currentTime}`);
 	});
 
-	fullscreenButton.addEventListener('click', function() {
-		if (document.fullscreenElement) {
-			document.exitFullscreen();
-		} else {
-			document.documentElement.requestFullscreen();
-		}
-	});
+	if (noFullscreen) {
+		fullscreenButton.disabled = true;
+	} else {
+		fullscreenButton.addEventListener('click', function() {
+			if (document.fullscreenElement) {
+				document.exitFullscreen();
+			} else {
+				document.documentElement.requestFullscreen();
+			}
+		});
+	}
 
 	document.documentElement.addEventListener('fullscreenchange', () => {
 		if (document.fullscreenElement) {
