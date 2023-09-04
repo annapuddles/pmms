@@ -28,13 +28,22 @@ function timeToString(time) {
 }
 
 function setCaptions(name) {
-	let video = document.querySelector('video');
-
-	for (let i = 0; i < video.textTracks.length; ++i) {
-		if (video.textTracks[i].label == name) {
-			video.textTracks[i].mode = 'showing';
+	if (media && media.youTubeApi) {
+		if (name == 'off') {
+			media.youTubeApi.unloadModule('captions');
 		} else {
-			video.textTracks[i].mode = 'hidden';
+			media.youTubeApi.loadModule('captions');
+			media.youTubeApi.setOption('captions', 'track', {languageCode: name});
+		}
+	} else {
+		let video = document.querySelector('video');
+
+		for (let i = 0; i < video.textTracks.length; ++i) {
+			if (video.textTracks[i].label == name) {
+				video.textTracks[i].mode = 'showing';
+			} else {
+				video.textTracks[i].mode = 'hidden';
+			}
 		}
 	}
 
@@ -425,6 +434,19 @@ window.addEventListener('load', () => {
 				if (playButton.icon == "play") {
 					playButton.setPauseIcon();
 				}
+
+/* FIXME: I couldn't find a way to detect whether captions are ON or OFF via the
+ * YouTube Player api. Despite some mentions to the contrary online,
+ * youTubeApi.getOptions('captions') only indicates whether captions are
+ * AVAILABLE. So, we'll have to re-apply the caption settings periodically
+ * (in this case, every sync).
+ */
+				if (media.youTubeApi) {
+					let ytCaptions = media.youTubeApi.getOption('captions', 'track');
+					if (ytCaptions && ytCaptions.languageCode != localStorage.captions) {
+						setCaptions(localStorage.captions);
+					}
+				}
 			} else {
 				let currentTime = resp.paused - resp.start_time;
 
@@ -654,6 +676,32 @@ window.addEventListener('load', () => {
 
 			document.getElementById('controls').style.visibility = 'visible';
 			pinnedButton.disabled = true;
+
+			/* FIXME: The YouTube captions tracklist is not
+			 * immediately available when playback starts (the
+			 * 'canplay' event), and I couldn't find a way to tie
+			 * into a better event using MediaElement.js, so the
+			 * captions list is re-loaded every time the settings
+			 * window is opened.
+			 */
+			if (this.id == 'settings-button') {
+				if (media.youTubeApi) {
+					let ytCaptions = media.youTubeApi.getOption('captions', 'tracklist');
+					captionsSelect.innerHTML = '<option>off</option>';
+					ytCaptions.forEach(captions => {
+						let option = document.createElement('option');
+
+						option.value = captions.languageCode;
+						option.innerHTML = captions.languageName;
+
+						if (captions.languageCode == localStorage.captions) {
+							option.selected = true;
+						}
+
+						captionsSelect.appendChild(option);
+					});
+				}
+			}
 		} else {
 			this.className = 'pop-up-menu-button inactive';
 		}
