@@ -63,6 +63,7 @@ window.addEventListener('load', () => {
 	let noEscape = url.searchParams.get("noescape");
 	let noQueue = url.searchParams.get("noqueue");
 	let noFullscreen = url.searchParams.get("nofullscreen");
+	let presetVolume = url.searchParams.get('volume');
 	let videoContainer = document.getElementById('video-container');
 	let playButton = document.getElementById('play');
 	let progressBar = document.getElementById('progress');
@@ -291,10 +292,14 @@ window.addEventListener('load', () => {
 						progressBar.max = media.duration;
 						durationTimecode.innerHTML = timeToString(media.duration);
 
-						media.volume = volumeSlider.value / 100;
+						if (presetVolume) {
+							media.volume = presetVolume / 100;
+						} else {
+							media.volume = volumeSlider.value / 100;
 
-						if (localStorage.muted) {
-							media.muted = localStorage.muted == 'true';
+							if (localStorage.muted) {
+								media.muted = localStorage.muted == 'true';
+							}
 						}
 
 						media.isLive = () =>
@@ -609,23 +614,28 @@ window.addEventListener('load', () => {
 		}
 	});
 
-	if (localStorage.volume) {
-		volumeSlider.value = localStorage.volume;
+	if (presetVolume) {
+		volumeSlider.disabled = true;
+		volumeSlider.value = presetVolume;
+	} else {
+		if (localStorage.volume) {
+			volumeSlider.value = localStorage.volume;
+		}
+
+		volumeSlider.addEventListener('input', function() {
+			if (media != null) {
+				media.volume = this.value / 100;
+				localStorage.volume = this.value;
+			}
+		});
+
+		volumeStatus.addEventListener('click', function() {
+			if (media != null) {
+				localStorage.muted = !media.muted;
+				media.muted = !media.muted;
+			}
+		});
 	}
-
-	volumeSlider.addEventListener('input', function() {
-		if (media != null) {
-			media.volume = this.value / 100;
-			localStorage.volume = this.value;
-		}
-	});
-
-	volumeStatus.addEventListener('click', function() {
-		if (media != null) {
-			localStorage.muted = !media.muted;
-			media.muted = !media.muted;
-		}
-	});
 
 	lockButton.addEventListener('click', function() {
 		fetch(`lock.php?room=${roomKey}`);
