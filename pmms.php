@@ -1,6 +1,8 @@
 <?php
 $Config = parse_ini_file("config.ini", true);
 
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
 function get_param($name) {
 	return isset($_GET[$name]) ? $_GET[$name] : null;
 }
