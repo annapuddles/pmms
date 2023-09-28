@@ -6,6 +6,7 @@ session_start();
 $url = get_param("url");
 $title = get_param("title");
 $lock = get_param("lock");
+$family = get_param("family");
 
 $conn = create_db_connection();
 
@@ -24,6 +25,10 @@ http_response_code(302);
 if ($room == null) {
 	header("Location: browse.php");
 } else {
-	header("Location: join.php?room=" . $room);
+	if ($family) {
+		header("Location: join.php?room=" . $room . "&family=" . $family);
+	} else {
+		header("Location: join.php?room=" . $room);
+	}
 }
 ?>

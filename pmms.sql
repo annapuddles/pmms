@@ -75,3 +75,6 @@ CREATE TABLE captions (
 );
 
 CREATE VIEW catalog_with_genre AS SELECT catalog.id AS id, url, title, sort_title, cover, category, series, keywords, hidden, genre.name AS genre FROM catalog JOIN catalog_genre ON catalog.id = catalog_genre.catalog_id JOIN genre ON genre.id = catalog_genre.genre_id;
+
+CREATE VIEW family_catalog_with_genre AS SELECT a.id, a.url, a.title, a.sort_title, a.cover, a.category, a.series, a.keywords, a.hidden, a.genre FROM catalog_with_genre a JOIN catalog_with_genre b USING (id) WHERE b.genre = 'Family';
+CREATE VIEW family_catalog AS SELECT DISTINCT a.id, a.url, a.title, a.sort_title, a.cover, a.category, a.series, a.keywords, a.hidden FROM catalog_with_genre a JOIN catalog_with_genre b USING (id) WHERE b.genre = 'Family';
