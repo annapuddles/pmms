@@ -94,11 +94,17 @@ window.addEventListener('load', function() {
 	if (series) {
 		genreSelect.style.display = 'none';
 	} else {
-		let genresUrl = 'genres.php';
+		let params = new URLSearchParams();
+
+		if (familyMode) {
+			params.set('family', familyMode);
+		}
 
 		if (category) {
-			genresUrl += `?category=${category}`;
+			params.set('category', category);
 		}
+
+		let genresUrl = 'genres.php?' + params.toString();
 
 		fetch(genresUrl).then(resp => resp.json()).then(data => {
 			genreSelect.innerHTML = '<option value="">All genres</option>';
