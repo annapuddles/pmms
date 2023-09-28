@@ -3,10 +3,10 @@ include "pmms.php";
 
 session_start();
 
+$family = get_param("family");
 $url = get_param("url");
 $title = get_param("title");
 $lock = get_param("lock");
-$family = get_param("family");
 
 $conn = create_db_connection();
 
@@ -26,7 +26,7 @@ if ($room == null) {
 	header("Location: browse.php");
 } else {
 	if ($family) {
-		header("Location: join.php?room=" . $room . "&family=" . $family);
+		header("Location: join.php?family=" . $family . "&room=" . $room);
 	} else {
 		header("Location: join.php?room=" . $room);
 	}

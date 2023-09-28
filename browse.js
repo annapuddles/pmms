@@ -179,13 +179,13 @@ window.addEventListener('load', function() {
 					if (title) {
 						let encodedTitle = encodeURIComponent(title);
 						if (familyMode) {
-							window.location = `create.php?url=${encodedUrl}&title=${encodedTitle}&family=${familyMode}`;
+							window.location = `create.php?family=${familyMode}&url=${encodedUrl}&title=${encodedTitle}`;
 						} else {
 							window.location = `create.php?url=${encodedUrl}&title=${encodedTitle}`;
 						}
 					} else {
 						if (familyMode) {
-							window.location = `create.php?url=${encodedUrl}&family=${familyMode}`;
+							window.location = `create.php?family=${familyMode}&url=${encodedUrl}`;
 						} else {
 							window.location = `create.php?url=${encodedUrl}`;
 						}
