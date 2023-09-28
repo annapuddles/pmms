@@ -261,7 +261,7 @@ window.addEventListener('load', function() {
 	let catalogUrl = 'catalog.php?' + url.searchParams.toString();
 
 	fetch(catalogUrl).then(resp => resp.json()).then(data => {
-		if (allowCustomUrls && series == null && category == null && genre == null && searchQuery.value == '') {
+		if (allowCustomUrls && !familyMode && series == null && category == null && genre == null && searchQuery.value == '') {
 			let customButton = document.createElement('div');
 			customButton.className = 'catalog-entry';
 			customButton.innerHTML = '<div class="cover"><button><i class="fas fa-link"></i></button></div><div class="title">Custom URL</div>';
