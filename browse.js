@@ -1,5 +1,6 @@
 window.addEventListener('load', function() {
 	let url = new URL(window.location);
+	let familyMode = url.searchParams.get('family');
 	let roomKey = url.searchParams.get('room');
 	let series = url.searchParams.get('series');
 	let category = url.searchParams.get('category');
@@ -46,7 +47,11 @@ window.addEventListener('load', function() {
 
 	if (roomKey == null) {
 		homeButton.addEventListener('click', function() {
-			window.location = '.';
+			if (familyMode) {
+				window.location = '.?family=' + familyMode;
+			} else {
+				window.location = '.';
+			}
 		});
 	} else {
 		navigation.style.display = 'none';
@@ -89,16 +94,26 @@ window.addEventListener('load', function() {
 	if (series) {
 		genreSelect.style.display = 'none';
 	} else {
-		let genresUrl = 'genres.php';
+		let params = new URLSearchParams();
+
+		if (familyMode) {
+			params.set('family', familyMode);
+		}
 
 		if (category) {
-			genresUrl += `?category=${category}`;
+			params.set('category', category);
 		}
+
+		let genresUrl = 'genres.php?' + params.toString();
 
 		fetch(genresUrl).then(resp => resp.json()).then(data => {
 			genreSelect.innerHTML = '<option value="">All genres</option>';
 
 			data.forEach(genre => {
+				if (familyMode && genre == 'Family') {
+					return;
+				}
+
 				let option = document.createElement('option');
 				option.value = genre;
 				option.innerHTML = genre;
@@ -169,9 +184,17 @@ window.addEventListener('load', function() {
 				if (is_allowed) {
 					if (title) {
 						let encodedTitle = encodeURIComponent(title);
-						window.location = `create.php?url=${encodedUrl}&title=${encodedTitle}`;
+						if (familyMode) {
+							window.location = `create.php?family=${familyMode}&url=${encodedUrl}&title=${encodedTitle}`;
+						} else {
+							window.location = `create.php?url=${encodedUrl}&title=${encodedTitle}`;
+						}
 					} else {
-						window.location = `create.php?url=${encodedUrl}`;
+						if (familyMode) {
+							window.location = `create.php?family=${familyMode}&url=${encodedUrl}`;
+						} else {
+							window.location = `create.php?url=${encodedUrl}`;
+						}
 					}
 				} else {
 					notify('URL "' + url + '" not allowed');
@@ -244,7 +267,7 @@ window.addEventListener('load', function() {
 	let catalogUrl = 'catalog.php?' + url.searchParams.toString();
 
 	fetch(catalogUrl).then(resp => resp.json()).then(data => {
-		if (allowCustomUrls && series == null && category == null && genre == null && searchQuery.value == '') {
+		if (allowCustomUrls && !familyMode && series == null && category == null && genre == null && searchQuery.value == '') {
 			let customButton = document.createElement('div');
 			customButton.className = 'catalog-entry';
 			customButton.innerHTML = '<div class="cover"><button><i class="fas fa-link"></i></button></div><div class="title">Custom URL</div>';

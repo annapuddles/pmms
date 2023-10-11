@@ -57,6 +57,22 @@ CREATE TABLE genre (
 	PRIMARY KEY (id)
 );
 
+INSERT INTO genre (id, name) VALUES (1, 'Family');
+INSERT INTO genre (name) VALUES
+	('Mystery'),
+	('Western'),
+	('Comedy'),
+	('Animation'),
+	('Adventure'),
+	('Action'),
+	('Crime'),
+	('Drama'),
+	('Horror'),
+	('Christmas'),
+	('Sci Fi'),
+	('Anime'),
+	('Adult');
+
 CREATE TABLE catalog_genre (
 	id INTEGER AUTO_INCREMENT,
 	catalog_id INTEGER,
@@ -75,3 +91,8 @@ CREATE TABLE captions (
 );
 
 CREATE VIEW catalog_with_genre AS SELECT catalog.id AS id, url, title, sort_title, cover, category, series, keywords, hidden, genre.name AS genre FROM catalog JOIN catalog_genre ON catalog.id = catalog_genre.catalog_id JOIN genre ON genre.id = catalog_genre.genre_id;
+
+
+CREATE VIEW family_catalog AS SELECT catalog.id, url, title, sort_title, cover, category, series, keywords, hidden FROM catalog JOIN catalog_genre ON catalog.id = catalog_genre.catalog_id WHERE genre_id = 1;
+
+CREATE VIEW family_catalog_with_genre AS SELECT catalog.id, url, title, sort_title, cover, category, series, keywords, hidden, genre.name AS genre FROM catalog JOIN catalog_genre ON catalog.id = catalog_genre.catalog_id JOIN genre ON genre.id = catalog_genre.genre_id JOIN catalog_genre x ON catalog.id = x.catalog_id WHERE x.genre_id = 1;
