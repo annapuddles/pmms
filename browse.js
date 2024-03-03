@@ -1,6 +1,7 @@
 window.addEventListener('load', function() {
 	let url = new URL(window.location);
 	let familyMode = url.searchParams.get('family');
+	let joinRoom = url.searchParams.get('join');
 	let roomKey = url.searchParams.get('room');
 	let series = url.searchParams.get('series');
 	let category = url.searchParams.get('category');
@@ -47,11 +48,17 @@ window.addEventListener('load', function() {
 
 	if (roomKey == null) {
 		homeButton.addEventListener('click', function() {
+			let params = new URLSearchParams();
+
 			if (familyMode) {
-				window.location = '.?family=' + familyMode;
-			} else {
-				window.location = '.';
+				params.set('family', familyMode);
 			}
+
+			if (joinRoom) {
+				params.set('join', joinRoom);
+			}
+
+			window.location = '.?' + params.toString();
 		});
 	} else {
 		navigation.style.display = 'none';
@@ -98,6 +105,10 @@ window.addEventListener('load', function() {
 
 		if (familyMode) {
 			params.set('family', familyMode);
+		}
+
+		if (joinRoom) {
+			params.set('join', joinRoom);
 		}
 
 		if (category) {
@@ -182,20 +193,23 @@ window.addEventListener('load', function() {
 		if (roomKey == null) {
 			fetch(`check-url.php?url=${encodedUrl}`).then(resp => resp.json()).then(is_allowed => {
 				if (is_allowed) {
-					if (title) {
-						let encodedTitle = encodeURIComponent(title);
-						if (familyMode) {
-							window.location = `create.php?family=${familyMode}&url=${encodedUrl}&title=${encodedTitle}`;
-						} else {
-							window.location = `create.php?url=${encodedUrl}&title=${encodedTitle}`;
-						}
-					} else {
-						if (familyMode) {
-							window.location = `create.php?family=${familyMode}&url=${encodedUrl}`;
-						} else {
-							window.location = `create.php?url=${encodedUrl}`;
-						}
+					let params = new URLSearchParams();
+
+					if (familyMode) {
+						params.set('family', familyMode);
 					}
+
+					if (joinRoom) {
+						params.set('join', joinRoom);
+					}
+
+					params.set('url', url);
+
+					if (title) {
+						params.set('title', title);
+					}
+
+					window.location = 'create.php?' + params.toString();
 				} else {
 					notify('URL "' + url + '" not allowed');
 				}

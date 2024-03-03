@@ -57,7 +57,7 @@ function is_url_allowed($conn, $url) {
 	}
 }
 
-function create_room($conn, $url, $title = null, $locked = null, $owner = null) {
+function create_room($conn, $url, $title = null, $locked = null, $owner = null, $room_key = null) {
 	global $Config;
 
 	prune_rooms($conn);
@@ -66,11 +66,15 @@ function create_room($conn, $url, $title = null, $locked = null, $owner = null) 
 		return null;
 	}
 
-	$stmt = $conn->prepare("SELECT UUID()");
-	$stmt->bind_result($room);
-	$stmt->execute();
-	$stmt->fetch();
-	$stmt->close();
+	if ($room_key == null) {
+		$stmt = $conn->prepare("SELECT UUID()");
+		$stmt->bind_result($room);
+		$stmt->execute();
+		$stmt->fetch();
+		$stmt->close();
+	} else {
+		$room = $room_key;
+	}
 
 	if ($locked == null) {
 		$locked = $Config["rooms"]["lock_by_default"];

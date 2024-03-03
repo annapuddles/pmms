@@ -60,6 +60,7 @@ function resetMedia() {
 window.addEventListener('load', () => {
 	let url = new URL(window.location);
 	let familyMode = url.searchParams.get('family');
+	let joinRoom = url.searchParams.get('join');
 	let roomKey = url.searchParams.get("room");
 	let noEscape = url.searchParams.get("noescape");
 	let noQueue = url.searchParams.get("noqueue");
@@ -580,11 +581,17 @@ window.addEventListener('load', () => {
 			if (history.length > 1) {
 				history.back();
 			} else {
+				let params = new URLSearchParams();
+
 				if (familyMode) {
-					window.location = 'browse.php?family=' + familyMode;
-				} else {
-					window.location = 'browse.php';
+					params.set('family', familyMode);
 				}
+
+				if (joinRoom) {
+					params.set('join', joinRoom);
+				}
+
+				window.location = 'browse.php?' + params.toString();
 			}
 		});
 	}
@@ -658,10 +665,15 @@ window.addEventListener('load', () => {
 			});
 		});
 
-		iframe.src = `browse.php?room=${roomKey}`;
+		let params = new URLSearchParams();
+
 		if (familyMode) {
-			iframe.src += '&family=' + familyMode;
+			params.set('family', familyMode);
 		}
+
+		params.set('room', roomKey);
+
+		iframe.src = 'browse.php?' + params.toString();
 
 		catalogContainer.appendChild(iframe);
 		catalogViewer.style.display = null;
