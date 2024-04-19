@@ -5,6 +5,8 @@ DROP TABLE IF EXISTS catalog;
 DROP TABLE IF EXISTS source;
 DROP TABLE IF EXISTS genre;
 DROP VIEW IF EXISTS catalog_with_genre;
+DROP VIEW IF EXISTS family_catalog;
+DROP VIEW IF EXISTS family_catalog_with_genre;
 
 CREATE TABLE room (
 	id INTEGER AUTO_INCREMENT,
