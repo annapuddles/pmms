@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS catalog_genre;
 DROP TABLE IF EXISTS catalog;
 DROP TABLE IF EXISTS source;
 DROP TABLE IF EXISTS genre;
+DROP TABLE IF EXISTS captions;
 DROP VIEW IF EXISTS catalog_with_genre;
 DROP VIEW IF EXISTS family_catalog;
 DROP VIEW IF EXISTS family_catalog_with_genre;
@@ -76,10 +77,9 @@ INSERT INTO genre (name) VALUES
 	('Adult');
 
 CREATE TABLE catalog_genre (
-	id INTEGER AUTO_INCREMENT,
 	catalog_id INTEGER,
 	genre_id INTEGER,
-	PRIMARY KEY (id),
+	PRIMARY KEY (catalog_id, genre_id),
 	FOREIGN KEY (catalog_id) REFERENCES catalog (id) ON DELETE CASCADE,
 	FOREIGN KEY (genre_id) REFERENCES genre (id) ON DELETE CASCADE
 );
