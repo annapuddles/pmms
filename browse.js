@@ -282,6 +282,7 @@ window.addEventListener('load', function() {
 			url.searchParams.set('series', entry.id);
 			url.searchParams.delete('category');
 			url.searchParams.delete('genre');
+			url.searchParams.delete('order');
 			url.searchParams.delete('query');
 			window.location = url.toString();
 		} else {
