@@ -13,7 +13,7 @@ if (isset($_GET["family"])) {
 
 if (isset($_GET["order"])) {
 	switch ($_GET["order"]) {
-		case "latest":
+		case "new":
 			$order = "id DESC";
 			break;
 		default:

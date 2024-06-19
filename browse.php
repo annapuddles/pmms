@@ -50,7 +50,7 @@ session_start();
 					</select>
 					<select id="order">
 						<option value="">Sort: Title</option>
-						<option value="latest">Sort: Latest</option>
+						<option value="new">Sort: New</option>
 					</select>
 					<input type="text" id="query" placeholder="Enter search terms...">
 					<button id="clear-search"><i class="fa-solid fa-xmark"></i></button>
