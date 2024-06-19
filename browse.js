@@ -6,6 +6,7 @@ window.addEventListener('load', function() {
 	let series = url.searchParams.get('series');
 	let category = url.searchParams.get('category');
 	let genre = url.searchParams.get('genre');
+	let order = url.searchParams.get('order');
 
 	let catalogDiv = document.getElementById('catalog');
 
@@ -17,6 +18,7 @@ window.addEventListener('load', function() {
 	let musicButton = document.getElementById('category-music');
 
 	let genreSelect = document.getElementById('genre');
+	let orderSelect = document.getElementById('order');
 
 	let searchQuery = document.getElementById('query');
 	let clearSearchButton = document.getElementById('clear-search');
@@ -100,6 +102,7 @@ window.addEventListener('load', function() {
 
 	if (series) {
 		genreSelect.style.display = 'none';
+		orderSelect.style.display = 'none';
 	} else {
 		let params = new URLSearchParams();
 
@@ -145,6 +148,20 @@ window.addEventListener('load', function() {
 
 			window.location = url.toString();
 		});
+
+		orderSelect.addEventListener('change', function() {
+			if (this.value == '') {
+				url.searchParams.delete('order');
+			} else {
+				url.searchParams.set('order', this.value);
+			}
+
+			window.location = url.toString();
+		});
+
+		if (order) {
+			orderSelect.value = order;
+		}
 	}
 
 	clearSearchButton.addEventListener('click', function() {

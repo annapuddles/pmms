@@ -48,6 +48,10 @@ session_start();
 					<select id="genre">
 						<option value="">All genres</option>
 					</select>
+					<select id="order">
+						<option value="">Sort: Title</option>
+						<option value="latest">Sort: Latest</option>
+					</select>
 					<input type="text" id="query" placeholder="Enter search terms...">
 					<button id="clear-search"><i class="fa-solid fa-xmark"></i></button>
 					<button id="search-button"><i class="fas fa-search"></i> Search</button>

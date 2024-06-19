@@ -11,6 +11,19 @@ if (isset($_GET["family"])) {
 	$catalog_with_genre_table = "catalog_with_genre";
 }
 
+if (isset($_GET["order"])) {
+	switch ($_GET["order"]) {
+		case "latest":
+			$order = "id DESC";
+			break;
+		default:
+			$order = "sort_title";
+			break;
+	}
+} else {
+	$order = "sort_title";
+}
+
 if (isset($_GET["query"])) {
 	$query = implode("* ", explode(" ", $_GET["query"])) . "*";
 
@@ -28,23 +41,23 @@ if (isset($_GET["query"])) {
 	}
 } else {
 	if (isset($_GET["series"])) {
-		$stmt = $conn->prepare("SELECT id, url, title, cover FROM $catalog_table WHERE series = ? AND hidden = FALSE ORDER BY sort_title");
+		$stmt = $conn->prepare("SELECT id, url, title, cover FROM $catalog_table WHERE series = ? AND hidden = FALSE ORDER BY $order");
 		$stmt->bind_param("i", $_GET["series"]);
 	} else {
 		if (isset($_GET["category"])) {
 			if (isset($_GET["genre"])) {
-				$stmt = $conn->prepare("SELECT id, url, title, cover FROM $catalog_with_genre_table WHERE series IS NULL AND category = ? AND genre = ? AND hidden = FALSE ORDER BY sort_title");
+				$stmt = $conn->prepare("SELECT id, url, title, cover FROM $catalog_with_genre_table WHERE series IS NULL AND category = ? AND genre = ? AND hidden = FALSE ORDER BY $order");
 				$stmt->bind_param("ss", $_GET["category"], $_GET["genre"]);
 			} else {
-				$stmt = $conn->prepare("SELECT id, url, title, cover FROM $catalog_table WHERE series IS NULL AND category = ? AND hidden = FALSE ORDER BY sort_title");
+				$stmt = $conn->prepare("SELECT id, url, title, cover FROM $catalog_table WHERE series IS NULL AND category = ? AND hidden = FALSE ORDER BY $order");
 				$stmt->bind_param("s", $_GET["category"]);
 			}
 		} else {
 			if (isset($_GET["genre"])) {
-				$stmt = $conn->prepare("SELECT id, url, title, cover FROM $catalog_with_genre_table WHERE series IS NULL AND genre = ? AND hidden = FALSE ORDER BY sort_title");
+				$stmt = $conn->prepare("SELECT id, url, title, cover FROM $catalog_with_genre_table WHERE series IS NULL AND genre = ? AND hidden = FALSE ORDER BY $order");
 				$stmt->bind_param("s", $_GET["genre"]);
 			} else {
-				$stmt = $conn->prepare("SELECT id, url, title, cover FROM $catalog_table WHERE series IS NULL AND hidden = FALSE ORDER BY sort_title");
+				$stmt = $conn->prepare("SELECT id, url, title, cover FROM $catalog_table WHERE series IS NULL AND hidden = FALSE ORDER BY $order");
 			}
 		}
 	}
