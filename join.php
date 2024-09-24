@@ -145,5 +145,8 @@ session_start();
 			<p>This room may have expired or the server may have gone offline temporarily.</p>
 			<p>If this persists, click the <i class="fa-solid fa-door-open"></i> button on the controls below and try creating a new room.</p>
 		</div>
+		<div id="paused-indicator">
+			<i class="fa-solid fa-pause"></i>
+		</div>
 	</body>
 </html>

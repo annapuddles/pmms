@@ -97,6 +97,7 @@ window.addEventListener('load', () => {
 	let roomUrlInput = document.getElementById('room-url');
 	let copyRoomLinkButton = document.getElementById('copy-room-link');
 	let syncToleranceSelect = document.getElementById('sync-tolerance');
+	let pausedIndicator = document.getElementById('paused-indicator');
 
 	if (noQueue) {
 		queueButton.disabled = true;
@@ -435,6 +436,7 @@ window.addEventListener('load', () => {
 				durationTimecode.innerHTML = timeToString(duration);
 
 				if (media.paused) {
+					pausedIndicator.style.display = null;
 					media.play();
 				}
 
@@ -465,6 +467,7 @@ window.addEventListener('load', () => {
 				}
 
 				if (!media.paused) {
+					pausedIndicator.style.display = 'block';
 					media.pause();
 				}
 

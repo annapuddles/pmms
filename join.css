@@ -236,6 +236,17 @@ button.active {
 	font-size: 4vmax;
 }
 
+#paused-indicator {
+	display: none;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 16vmax;
+	color: white;
+	text-align: center;
+}
+
 #catalog-viewer {
 	display: flex;
 	flex-flow: column;
