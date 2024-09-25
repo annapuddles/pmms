@@ -148,5 +148,16 @@ session_start();
 		<div id="paused-indicator">
 			<i class="fa-solid fa-pause"></i>
 		</div>
+		<div id="media-end-actions">
+			<button id="media-end-replay">
+				<i class="fa-solid fa-rotate-right"></i>
+			</button>
+			<button id="media-end-add">
+				<i class="fa-solid fa-plus"></i>
+			</button>
+			<button id="media-end-exit">
+				<i class="fa-solid fa-door-open"></i>
+			</button>
+		</div>
 	</body>
 </html>

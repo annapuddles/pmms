@@ -98,6 +98,10 @@ window.addEventListener('load', () => {
 	let copyRoomLinkButton = document.getElementById('copy-room-link');
 	let syncToleranceSelect = document.getElementById('sync-tolerance');
 	let pausedIndicator = document.getElementById('paused-indicator');
+	let mediaEndActions = document.getElementById('media-end-actions');
+	let mediaEndReplayButton = document.getElementById('media-end-replay');
+	let mediaEndAddButton = document.getElementById('media-end-add');
+	let mediaEndExitButton = document.getElementById('media-end-exit');
 
 	if (noQueue) {
 		queueButton.disabled = true;
@@ -183,6 +187,8 @@ window.addEventListener('load', () => {
 		shuffleButton.disabled = disabled;
 		seekForwardButton.disabled = disabled;
 		seekBackwardButton.disabled = disabled;
+		mediaEndAddButton.disabled = disabled;
+		mediaEndReplayButton.disabled = disabled;
 	}
 
 	setInterval(() => {
@@ -235,6 +241,8 @@ window.addEventListener('load', () => {
 				currentUrl = resp.url;
 
 				resetMedia();
+
+				mediaEndActions.style.display = null;
 
 				videoContainer.innerHTML = '';
 
@@ -411,6 +419,8 @@ window.addEventListener('load', () => {
 						if (media.isReady && currentTime >= media.duration) {
 							if (nextButton.queueId != null) {
 								fetch(`dequeue.php?room=${roomKey}&id=${nextButton.queueId}`);
+							} else {
+								mediaEndActions.style.display = 'block';
 							}
 
 							currentTime = media.duration;
@@ -574,13 +584,14 @@ window.addEventListener('load', () => {
 	});
 
 	progressBar.addEventListener('input', function() {
+		mediaEndActions.style.display = null;
 		fetch(`seek.php?room=${roomKey}&time=${this.value}`);
 	});
 
 	if (noEscape) {
-		exitButton.disabled = true;
+		[exitButton, mediaEndExitButton].forEach(btn => btn.disabled = true);
 	} else {
-		exitButton.addEventListener('click', function() {
+		[exitButton, mediaEndExitButton].forEach(btn => btn.addEventListener('click', function() {
 			if (history.length > 1) {
 				history.back();
 			} else {
@@ -596,7 +607,7 @@ window.addEventListener('load', () => {
 
 				window.location = 'browse.php?' + params.toString();
 			}
-		});
+		}));
 	}
 
 	nextButton.addEventListener('click', function() {
@@ -745,10 +756,12 @@ window.addEventListener('load', () => {
 	});
 
 	seekBackwardButton.addEventListener('click', function() {
+		mediaEndActions.style.display = null;
 		fetch(`seek-backward.php?room=${roomKey}`);
 	});
 
 	seekForwardButton.addEventListener('click', function() {
+		mediaEndActions.style.display = null;
 		fetch(`seek-forward.php?room=${roomKey}`);
 	});
 
@@ -778,5 +791,15 @@ window.addEventListener('load', () => {
 
 	syncToleranceSelect.addEventListener('input', function() {
 		syncTolerance = parseInt(this.value);
+	});
+
+	mediaEndReplayButton.addEventListener('click', function() {
+		mediaEndActions.style.display = null;
+		fetch(`seek.php?room=${roomKey}&time=0`);
+	});
+
+	mediaEndAddButton.addEventListener('click', function() {
+		queueButton.click();
+		addMediaButton.click();
 	});
 });
