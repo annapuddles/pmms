@@ -670,7 +670,7 @@ window.addEventListener('load', () => {
 		fetch(`lock.php?room=${roomKey}`);
 	});
 
-	addMediaButton.addEventListener('click', function() {
+	[addMediaButton, mediaEndAddButton].forEach(btn => btn.addEventListener('click', function() {
 		let iframe = document.createElement('iframe');
 
 		iframe.addEventListener('load', function() {
@@ -693,11 +693,11 @@ window.addEventListener('load', () => {
 		iframe.src = 'browse.php?' + params.toString();
 
 		catalogContainer.appendChild(iframe);
-		catalogViewer.style.display = null;
-	});
+		catalogViewer.style.display = 'flex';
+	}));
 
 	closeCatalogButton.addEventListener('click', function() {
-		catalogViewer.style.display = 'none';
+		catalogViewer.style.display = null;
 		catalogContainer.innerHTML = '';
 	});
 
@@ -799,10 +799,5 @@ window.addEventListener('load', () => {
 	mediaEndReplayButton.addEventListener('click', function() {
 		mediaEndActions.style.display = null;
 		fetch(`seek.php?room=${roomKey}&time=0`);
-	});
-
-	mediaEndAddButton.addEventListener('click', function() {
-		queueButton.click();
-		addMediaButton.click();
 	});
 });

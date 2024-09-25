@@ -78,12 +78,12 @@ session_start();
 					<i class="fa-solid fa-trash"></i>
 				</button>
 			</div>
-			<div id="catalog-viewer" style="display: none">
-				<button id="close-catalog">
-					<i class="fa-solid fa-xmark"></i>
-				</button>
-				<div id="catalog-container"></div>
-			</div>
+		</div>
+		<div id="catalog-viewer" style="display: none">
+			<button id="close-catalog">
+				<i class="fa-solid fa-xmark"></i>
+			</button>
+			<div id="catalog-container"></div>
 		</div>
 		<div id="settings" class="pop-up-menu">
 			<div class="settings-group">

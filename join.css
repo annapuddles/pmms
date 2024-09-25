@@ -263,13 +263,16 @@ button.active, button:hover {
 }
 
 #catalog-viewer {
-	display: flex;
+	display: none;
 	flex-flow: column;
 	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -45%);
+	width: 62vw;
+	height: 82vh;
+	z-index: 2;
+	background: rgba(0, 0, 0, 0.7);
 }
 
 #close-catalog {
