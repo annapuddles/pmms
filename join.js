@@ -477,12 +477,15 @@ window.addEventListener('load', () => {
 				}
 
 				if (!media.paused) {
-					pausedIndicator.style.display = 'block';
 					media.pause();
 				}
 
 				if (playButton.icon == "pause") {
 					playButton.setPlayIcon();
+				}
+
+				if (pausedIndicator.style.display != 'block') {
+					pausedIndicator.style.display = 'block';
 				}
 			}
 		})
