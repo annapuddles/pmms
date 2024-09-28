@@ -289,6 +289,12 @@ button.active, button:hover {
 	border: none;
 }
 
+@media (hover: none) {
+	#media-end-actions {
+		visibility: hidden;
+	}
+}
+
 @media (hover: none) and (orientation: portrait) {
 	html, body {
 		overflow: auto;
@@ -329,6 +335,26 @@ button.active, button:hover {
 	#controls {
 		width: auto;
 		height: auto;
+	}
+
+	#play {
+		width: 100%;
+	}
+
+	#progress {
+		width: 100%;
+	}
+
+	#seek-backward, #seek-forward {
+		width: 30%;
+	}
+
+	#volume-status {
+		width: auto;
+	}
+
+	#volume {
+		width: auto;
 	}
 
 	#video > iframe, #video > video {
