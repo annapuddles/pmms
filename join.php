@@ -52,7 +52,7 @@ session_start();
 				<button id="pinned">
 					<i class="Fas fa-thumbtack"></i>
 				</button>
-				<button id="exit">
+				<button class="exit-button">
 					<i class="fa-solid fa-door-open"></i>
 				</button>
 			</div>
@@ -143,7 +143,10 @@ session_start();
 			<div id="icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
 			<p><strong>Connection to the server has been lost.</strong></p>
 			<p>This room may have expired or the server may have gone offline temporarily.</p>
-			<p>If this persists, click the <i class="fa-solid fa-door-open"></i> button on the controls below and try creating a new room.</p>
+			<p>If this persists, click the button below and try creating a new room:</p>
+			<button class="exit-button">
+				<i class="fa-solid fa-door-open"/></i>
+			</button>
 		</div>
 		<div id="paused-indicator">
 			<i class="fa-solid fa-pause"></i>
@@ -155,7 +158,7 @@ session_start();
 			<button id="media-end-add">
 				<i class="fa-solid fa-plus"></i>
 			</button>
-			<button id="media-end-exit">
+			<button class="exit-button">
 				<i class="fa-solid fa-door-open"></i>
 			</button>
 		</div>

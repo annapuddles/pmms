@@ -236,6 +236,10 @@ button.active, button:hover {
 	font-size: 4vmax;
 }
 
+#connection-lost-notice button {
+	width: 100%;
+}
+
 #paused-indicator {
 	display: none;
 	position: absolute;

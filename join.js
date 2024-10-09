@@ -71,7 +71,6 @@ window.addEventListener('load', () => {
 	let progressBar = document.getElementById('progress');
 	let currentTimecode = document.getElementById('current-timecode');
 	let durationTimecode = document.getElementById('duration-timecode');
-	let exitButton = document.getElementById('exit');
 	let nextButton = document.getElementById('next');
 	let queueList = document.getElementById('queue-list');
 	let loopButton = document.getElementById('loop');
@@ -101,7 +100,6 @@ window.addEventListener('load', () => {
 	let mediaEndActions = document.getElementById('media-end-actions');
 	let mediaEndReplayButton = document.getElementById('media-end-replay');
 	let mediaEndAddButton = document.getElementById('media-end-add');
-	let mediaEndExitButton = document.getElementById('media-end-exit');
 
 	if (noQueue) {
 		queueButton.disabled = true;
@@ -592,9 +590,9 @@ window.addEventListener('load', () => {
 	});
 
 	if (noEscape) {
-		[exitButton, mediaEndExitButton].forEach(btn => btn.disabled = true);
+		document.querySelectorAll('.exit-button').forEach(btn => btn.disabled = true);
 	} else {
-		[exitButton, mediaEndExitButton].forEach(btn => btn.addEventListener('click', function() {
+		document.querySelectorAll('.exit-button').forEach(btn => btn.addEventListener('click', function() {
 			if (history.length > 1) {
 				history.back();
 			} else {
