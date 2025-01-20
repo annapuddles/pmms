@@ -1,6 +1,6 @@
 # What is pmms?
 
-pmms (Poodle's Multimedia System) is a tool to watch videos in sync with others across multiple different platforms.
+pmms (Poodle Multimedia System) is a tool to watch videos in sync with others across multiple different platforms.
 
 # How do I use it?
 
