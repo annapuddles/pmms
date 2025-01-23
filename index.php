@@ -7,7 +7,6 @@ session_start();
 		<meta name="viewport" content="width=device-width">
 		<title>pmms - Poodle Multimedia System</title>
 		<script src="index.js"></script>
-		<link rel="stylesheet" href="fontawesome-free-6.2.0-web/css/solid.css">
 		<link rel="stylesheet" href="index.css">
 	</head>
 	<body>
