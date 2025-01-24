@@ -57,10 +57,14 @@ function is_url_allowed($conn, $url) {
 	}
 }
 
-function create_room($conn, $url, $title = null, $locked = null, $owner = null, $room_key = null) {
+function create_room($conn, $url = null, $title = null, $locked = null, $owner = null, $room_key = null) {
 	global $Config;
 
 	prune_rooms($conn);
+
+	if ($url == null) {
+		$url = $Config["general"]["default_video"];
+	}
 
 	if (!is_url_allowed($conn, $url)) {
 		return null;
