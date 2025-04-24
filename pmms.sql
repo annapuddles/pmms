@@ -8,6 +8,11 @@ DROP TABLE IF EXISTS captions;
 DROP VIEW IF EXISTS catalog_with_genre;
 DROP VIEW IF EXISTS family_catalog;
 DROP VIEW IF EXISTS family_catalog_with_genre;
+DROP PROCEDURE IF EXISTS autonomize;
+DROP PROCEDURE IF EXISTS bump_by_room_id;
+DROP PROCEDURE IF EXISTS bump;
+DROP PROCEDURE IF EXISTS clear_queue_by_room_id;
+DROP PROCEDURE IF EXISTS clear_queue;
 
 CREATE TABLE room (
 	id INTEGER AUTO_INCREMENT,
@@ -98,3 +103,44 @@ CREATE VIEW catalog_with_genre AS SELECT catalog.id AS id, url, title, sort_titl
 CREATE VIEW family_catalog AS SELECT catalog.id, url, title, sort_title, cover, category, series, keywords, hidden FROM catalog JOIN catalog_genre ON catalog.id = catalog_genre.catalog_id WHERE genre_id = 1;
 
 CREATE VIEW family_catalog_with_genre AS SELECT catalog.id, url, title, sort_title, cover, category, series, keywords, hidden, genre.name AS genre FROM catalog JOIN catalog_genre ON catalog.id = catalog_genre.catalog_id JOIN genre ON genre.id = catalog_genre.genre_id JOIN catalog_genre x ON catalog.id = x.catalog_id WHERE x.genre_id = 1;
+
+CREATE PROCEDURE autonomize (
+	IN room_key VARCHAR(36)
+)
+BEGIN
+	UPDATE room SET room.loop_media = 2, room.expires = NULL, room.owner = NULL, room.locked = TRUE WHERE room.room_key = room_key;
+END;
+
+CREATE PROCEDURE bump_by_room_id (
+	IN room_id INT,
+	IN prune_after INT
+)
+BEGIN
+	UPDATE room SET room.expires = DATE_ADD(NOW(), INTERVAL prune_after SECOND) WHERE room.id = room_id;
+END;
+
+CREATE PROCEDURE bump (
+	IN room_key VARCHAR(36),
+	IN prune_after INT
+)
+BEGIN
+	DECLARE room_id INTEGER;
+	SELECT room.id INTO room_id FROM room WHERE room.room_key = room_key;
+	CALL bump_by_room_id(room_id, prune_after);
+END;
+
+CREATE PROCEDURE clear_queue_by_room_id (
+	IN room_id INT
+)
+BEGIN
+	DELETE FROM queue WHERE queue.room_id = room_id;
+END;
+
+CREATE PROCEDURE clear_queue (
+	IN room_key VARCHAR(36)
+)
+BEGIN
+	DECLARE room_id INTEGER;
+	SELECT room.id INTO room_id FROM room WHERE room.room_key = room_key;
+	CALL clear_queue_by_room_id(room_id);
+END;
