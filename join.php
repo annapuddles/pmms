@@ -162,5 +162,8 @@ session_start();
 				<i class="fa-solid fa-door-open"></i>
 			</button>
 		</div>
+		<div id="loading-indicator">
+			<i class="fa-solid fa-spinner"></i>
+		</div>
 	</body>
 </html>

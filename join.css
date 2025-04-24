@@ -266,6 +266,27 @@ button.active, button:hover {
 	font-size: 12vmax;
 }
 
+#loading-indicator {
+	display: none;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 16vmax;
+	color: white;
+	text-align: center;
+	animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+	from {
+		transform: translate(-50%, -50%) rotate(0deg);
+	}
+	to {
+		transform: translate(-50%, -50%) rotate(360deg);
+	}
+}
+
 #catalog-viewer {
 	display: none;
 	flex-flow: column;

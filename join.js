@@ -100,6 +100,7 @@ window.addEventListener('load', () => {
 	let mediaEndActions = document.getElementById('media-end-actions');
 	let mediaEndReplayButton = document.getElementById('media-end-replay');
 	let mediaEndAddButton = document.getElementById('media-end-add');
+	let loadingIndicator = document.getElementById('loading-indicator');
 
 	if (noQueue) {
 		queueButton.disabled = true;
@@ -283,12 +284,12 @@ window.addEventListener('load', () => {
 					media = new MediaElement('video');
 
 					media.style.display = 'none';
+					loadingIndicator.style.display = 'block';
 
 					media.isLive = () => false;
 
 					let failedToLoad = setTimeout(() => {
 						resetMedia();
-
 						mediaReadyTimeout += baseMediaReadyTimeout;
 					}, mediaReadyTimeout);
 
@@ -296,6 +297,7 @@ window.addEventListener('load', () => {
 						clearTimeout(failedToLoad);
 						mediaReadyTimeout = baseMediaReadyTimeout;
 
+						loadingIndicator.style.display = null;
 						media.style.display = null;
 
 						progressBar.max = media.duration;
