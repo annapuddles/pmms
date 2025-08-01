@@ -416,21 +416,25 @@ window.addEventListener('load', () => {
 					if (resp.loop == 1) {
 						currentTime %= media.duration;
 					} else {
-						if (media.isReady && currentTime >= media.duration) {
-							if (nextButton.queueId != null) {
-								fetch(`dequeue.php?room=${roomKey}&id=${nextButton.queueId}`);
+						if (media.isReady) {
+							if (currentTime >= media.duration) {
+								if (nextButton.queueId != null) {
+									fetch(`dequeue.php?room=${roomKey}&id=${nextButton.queueId}`);
+								} else {
+									mediaEndActions.style.display = 'block';
+								}
+
+								currentTime = media.duration;
+
+								progressBar.value = currentTime;
+								currentTimecode.innerHTML = timeToString(currentTime);
+
+								media.pause();
+
+								return;
 							} else {
-								mediaEndActions.style.display = 'block';
+								mediaEndActions.style.display = null;
 							}
-
-							currentTime = media.duration;
-
-							progressBar.value = currentTime;
-							currentTimecode.innerHTML = timeToString(currentTime);
-
-							media.pause();
-
-							return;
 						}
 					}
 
@@ -587,7 +591,6 @@ window.addEventListener('load', () => {
 	});
 
 	progressBar.addEventListener('input', function() {
-		mediaEndActions.style.display = null;
 		fetch(`seek.php?room=${roomKey}&time=${this.value}`);
 	});
 
@@ -759,12 +762,10 @@ window.addEventListener('load', () => {
 	});
 
 	seekBackwardButton.addEventListener('click', function() {
-		mediaEndActions.style.display = null;
 		fetch(`seek-backward.php?room=${roomKey}`);
 	});
 
 	seekForwardButton.addEventListener('click', function() {
-		mediaEndActions.style.display = null;
 		fetch(`seek-forward.php?room=${roomKey}`);
 	});
 
@@ -797,7 +798,6 @@ window.addEventListener('load', () => {
 	});
 
 	mediaEndReplayButton.addEventListener('click', function() {
-		mediaEndActions.style.display = null;
 		fetch(`seek.php?room=${roomKey}&time=0`);
 	});
 });
